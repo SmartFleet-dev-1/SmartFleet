@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- BACKEND — SmartFleetProApplicationTests.java                       -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Section 1: Vehicle Service Tests -->
+    <property name="test01_addVehicle_success" value="test VehicleService Add Vehicle Returns Saved Vehicle"/>
+    <property name="test02_addVehicle_duplicateThrows" value="test VehicleService Add Vehicle Duplicate Number Throws DuplicateResourceException"/>
+    <property name="test03_getAllVehicles_returnsList" value="test VehicleService Get All Vehicles Returns List"/>
+    <property name="test04_getVehicleById_found" value="test VehicleService Get Vehicle By ID Returns Correct Vehicle"/>
+    <property name="test05_getVehicleById_notFound" value="test VehicleService Get Vehicle By ID Not Found Throws ResourceNotFoundException"/>
+    <property name="test06_updateVehicle_success" value="test VehicleService Update Vehicle Returns Updated Vehicle"/>
+    <property name="test07_deleteVehicle_success" value="test VehicleService Delete Vehicle Removes Record"/>
+    <property name="test08_deleteVehicle_notFound" value="test VehicleService Delete Vehicle Not Found Throws ResourceNotFoundException"/>
+    <property name="test09_searchVehicleByNumber" value="test VehicleService Search Vehicle By Number Returns Correct Vehicle"/>
+    <property name="test10_searchVehicleByBrand" value="test VehicleService Search Vehicle By Brand Returns List"/>
+    <property name="test11_filterVehicleByStatus" value="test VehicleService Filter Vehicle By Status Returns Filtered List"/>
+    <property name="test12_sortVehicleByYearAsc" value="test VehicleService Sort Vehicles By Manufacturing Year Ascending"/>
+    <property name="test13_sortVehicleByYearDesc" value="test VehicleService Sort Vehicles By Manufacturing Year Descending"/>
+    <property name="test14_sortVehicleByMileageAsc" value="test VehicleService Sort Vehicles By Mileage Ascending"/>
+    <property name="test15_assignDriverToVehicle" value="test VehicleService Assign Driver To Vehicle Updates Driver"/>
+
+    <!-- Section 2: Driver Service Tests -->
+    <property name="test16_addDriver_success" value="test DriverService Add Driver Returns Saved Driver"/>
+    <property name="test17_addDriver_duplicateLicenseThrows" value="test DriverService Add Driver Duplicate License Throws DuplicateResourceException"/>
+    <property name="test18_getAllDrivers_returnsList" value="test DriverService Get All Drivers Returns List"/>
+    <property name="test19_getDriverById_found" value="test DriverService Get Driver By ID Returns Correct Driver"/>
+    <property name="test20_getDriverById_notFound" value="test DriverService Get Driver By ID Not Found Throws ResourceNotFoundException"/>
+    <property name="test21_updateDriver_success" value="test DriverService Update Driver Returns Updated Driver"/>
+    <property name="test22_deleteDriver_success" value="test DriverService Delete Driver Removes Record"/>
+    <property name="test23_deleteDriver_notFound" value="test DriverService Delete Driver Not Found Throws ResourceNotFoundException"/>
+    <property name="test24_searchDriverByName" value="test DriverService Search Driver By Name Returns List"/>
+    <property name="test25_filterDriverByAvailability" value="test DriverService Filter Driver By Availability Returns Filtered List"/>
+    <property name="test26_sortDriverByExperienceAsc" value="test DriverService Sort Drivers By Experience Ascending"/>
+    <property name="test27_sortDriverByExperienceDesc" value="test DriverService Sort Drivers By Experience Descending"/>
+    <property name="test28_addDriver_verifyPhoneNumber" value="test DriverService Add Driver Verify Phone Number Is Saved Correctly"/>
+    <property name="test29_addDriver_verifyExperience" value="test DriverService Add Driver Verify Experience Years Is Saved Correctly"/>
+    <property name="test30_addDriver_verifyAvailabilityStatus" value="test DriverService Add Driver Verify Availability Status Is Available"/>
+
+    <!-- Section 3: Maintenance Record Service Tests -->
+    <property name="test31_addMaintenanceRecord_success" value="test MaintenanceRecordService Add Maintenance Record Returns Saved Record"/>
+    <property name="test32_addMaintenance_vehicleNotFound" value="test MaintenanceRecordService Add Maintenance Vehicle Not Found Throws ResourceNotFoundException"/>
+    <property name="test33_getAllMaintenanceRecords" value="test MaintenanceRecordService Get All Maintenance Records Returns List"/>
+    <property name="test34_getMaintenanceById_found" value="test MaintenanceRecordService Get Maintenance By ID Returns Correct Record"/>
+    <property name="test35_getMaintenanceById_notFound" value="test MaintenanceRecordService Get Maintenance By ID Not Found Throws ResourceNotFoundException"/>
+    <property name="test36_updateMaintenanceRecord" value="test MaintenanceRecordService Update Maintenance Record Returns Updated Record"/>
+    <property name="test37_deleteMaintenanceRecord" value="test MaintenanceRecordService Delete Maintenance Record Removes Record"/>
+    <property name="test38_deleteMaintenanceRecord_notFound" value="test MaintenanceRecordService Delete Maintenance Record Not Found Throws ResourceNotFoundException"/>
+    <property name="test39_searchMaintenanceByServiceType" value="test MaintenanceRecordService Search Maintenance By Service Type Returns List"/>
+    <property name="test40_filterMaintenanceByDate" value="test MaintenanceRecordService Filter Maintenance By Service Date Returns List"/>
+    <property name="test41_sortMaintenanceByCostAsc" value="test MaintenanceRecordService Sort Maintenance By Service Cost Ascending"/>
+    <property name="test42_sortMaintenanceByCostDesc" value="test MaintenanceRecordService Sort Maintenance By Service Cost Descending"/>
+    <property name="test43_getMaintenanceByVehicle" value="test MaintenanceRecordService Get Maintenance Records By Vehicle Returns List"/>
+    <property name="test44_maintenanceRecord_verifyServiceCenter" value="test MaintenanceRecordService Add Maintenance Verify Service Center Is Saved Correctly"/>
+    <property name="test45_maintenanceRecord_verifyServiceCost" value="test MaintenanceRecordService Add Maintenance Verify Service Cost Is Saved Correctly"/>
+
+    <!-- Section 4: Insurance Service Tests -->
+    <property name="test46_addInsurance_success" value="test InsuranceService Add Insurance Returns Saved Insurance"/>
+    <property name="test47_addInsurance_duplicatePolicyThrows" value="test InsuranceService Add Insurance Duplicate Policy Number Throws DuplicateResourceException"/>
+    <property name="test48_addInsurance_vehicleNotFound" value="test InsuranceService Add Insurance Vehicle Not Found Throws ResourceNotFoundException"/>
+    <property name="test49_getAllInsurance" value="test InsuranceService Get All Insurance Returns List"/>
+    <property name="test50_getInsuranceById_found" value="test InsuranceService Get Insurance By ID Returns Correct Insurance"/>
+    <property name="test51_getInsuranceById_notFound" value="test InsuranceService Get Insurance By ID Not Found Throws ResourceNotFoundException"/>
+    <property name="test52_updateInsurance" value="test InsuranceService Update Insurance Returns Updated Insurance"/>
+    <property name="test53_deleteInsurance_success" value="test InsuranceService Delete Insurance Removes Record"/>
+    <property name="test54_deleteInsurance_notFound" value="test InsuranceService Delete Insurance Not Found Throws ResourceNotFoundException"/>
+    <property name="test55_searchInsuranceByProvider" value="test InsuranceService Search Insurance By Provider Name Returns List"/>
+    <property name="test56_filterInsuranceByCoverage" value="test InsuranceService Filter Insurance By Coverage Type Returns Filtered List"/>
+    <property name="test57_sortInsuranceByPremiumAsc" value="test InsuranceService Sort Insurance By Premium Amount Ascending"/>
+    <property name="test58_sortInsuranceByPremiumDesc" value="test InsuranceService Sort Insurance By Premium Amount Descending"/>
+    <property name="test59_insurance_verifyPremiumAmount" value="test InsuranceService Add Insurance Verify Premium Amount Is Saved Correctly"/>
+    <property name="test60_insurance_verifyVehicleNumber" value="test InsuranceService Add Insurance Verify Vehicle Number Is Linked Correctly"/>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- FRONTEND — Karma/Jasmine Spec Files                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- vehicle.service.spec.ts — HttpService Vehicle Methods -->
+    <property name="HttpService - Vehicle should get all vehicles" value="test HttpService Get All Vehicles"/>
+    <property name="HttpService - Vehicle should add a vehicle" value="test HttpService Add A Vehicle"/>
+    <property name="HttpService - Vehicle should update a vehicle" value="test HttpService Update A Vehicle"/>
+    <property name="HttpService - Vehicle should delete a vehicle" value="test HttpService Delete A Vehicle"/>
+    <property name="HttpService - Vehicle should get vehicle by id" value="test HttpService Get Vehicle By ID"/>
+    <property name="HttpService - Vehicle should search vehicle by number" value="test HttpService Search Vehicle By Number"/>
+    <property name="HttpService - Vehicle should search vehicle by brand" value="test HttpService Search Vehicle By Brand"/>
+    <property name="HttpService - Vehicle should filter vehicle by status" value="test HttpService Filter Vehicle By Status"/>
+    <property name="HttpService - Vehicle should sort vehicles by year asc" value="test HttpService Sort Vehicles By Year Ascending"/>
+    <property name="HttpService - Vehicle should sort vehicles by year desc" value="test HttpService Sort Vehicles By Year Descending"/>
+    <property name="HttpService - Vehicle should sort vehicles by mileage" value="test HttpService Sort Vehicles By Mileage"/>
+    <property name="HttpService - Vehicle should assign driver to vehicle" value="test HttpService Assign Driver To Vehicle"/>
+    <property name="HttpService - Vehicle should include Authorization header for getAllVehicles" value="test HttpService Include Authorization Header For GetAllVehicles"/>
+    <property name="HttpService - Vehicle should include Content-Type header for addVehicle" value="test HttpService Include Content-Type Header For AddVehicle"/>
+    <property name="HttpService - Vehicle should send correct body for updateVehicle" value="test HttpService Send Correct Body For UpdateVehicle"/>
+
+    <!-- driver.service.spec.ts — HttpService Driver Methods -->
+    <property name="HttpService - Driver should get all drivers" value="test HttpService Get All Drivers"/>
+    <property name="HttpService - Driver should add a driver" value="test HttpService Add A Driver"/>
+    <property name="HttpService - Driver should update a driver" value="test HttpService Update A Driver"/>
+    <property name="HttpService - Driver should delete a driver" value="test HttpService Delete A Driver"/>
+    <property name="HttpService - Driver should get driver by id" value="test HttpService Get Driver By ID"/>
+    <property name="HttpService - Driver should search driver by name" value="test HttpService Search Driver By Name"/>
+    <property name="HttpService - Driver should filter driver by availability" value="test HttpService Filter Driver By Availability"/>
+    <property name="HttpService - Driver should sort drivers by experience asc" value="test HttpService Sort Drivers By Experience Ascending"/>
+    <property name="HttpService - Driver should sort drivers by experience desc" value="test HttpService Sort Drivers By Experience Descending"/>
+    <property name="HttpService - Driver should include Authorization header for getAllDrivers" value="test HttpService Include Authorization Header For GetAllDrivers"/>
+    <property name="HttpService - Driver should include Content-Type for addDriver" value="test HttpService Include Content-Type Header For AddDriver"/>
+    <property name="HttpService - Driver should send correct body for updateDriver" value="test HttpService Send Correct Body For UpdateDriver"/>
+    <property name="HttpService - Driver should call deleteDriver with correct id" value="test HttpService Call DeleteDriver With Correct ID"/>
+    <property name="HttpService - Driver should filter driver by Assigned status" value="test HttpService Filter Driver By Assigned Status"/>
+    <property name="HttpService - Driver should search driver returns empty array when none found" value="test HttpService Search Driver Returns Empty Array When None Found"/>
+
+    <!-- maintenance.service.spec.ts — HttpService Maintenance Methods -->
+    <property name="HttpService - Maintenance should get all maintenance records" value="test HttpService Get All Maintenance Records"/>
+    <property name="HttpService - Maintenance should add a maintenance record with vehicleId param" value="test HttpService Add A Maintenance Record With VehicleId Param"/>
+    <property name="HttpService - Maintenance should update a maintenance record" value="test HttpService Update A Maintenance Record"/>
+    <property name="HttpService - Maintenance should delete a maintenance record" value="test HttpService Delete A Maintenance Record"/>
+    <property name="HttpService - Maintenance should get maintenance by id" value="test HttpService Get Maintenance By ID"/>
+    <property name="HttpService - Maintenance should search maintenance by service type" value="test HttpService Search Maintenance By Service Type"/>
+    <property name="HttpService - Maintenance should filter maintenance by date" value="test HttpService Filter Maintenance By Date"/>
+    <property name="HttpService - Maintenance should sort maintenance by cost asc" value="test HttpService Sort Maintenance By Cost Ascending"/>
+    <property name="HttpService - Maintenance should sort maintenance by cost desc" value="test HttpService Sort Maintenance By Cost Descending"/>
+    <property name="HttpService - Maintenance should include Authorization header for getAllMaintenance" value="test HttpService Include Authorization Header For GetAllMaintenance"/>
+    <property name="HttpService - Maintenance should include Content-Type for addMaintenance" value="test HttpService Include Content-Type Header For AddMaintenance"/>
+    <property name="HttpService - Maintenance should send correct body for updateMaintenance" value="test HttpService Send Correct Body For UpdateMaintenance"/>
+    <property name="HttpService - Maintenance should call deleteMaintenance with correct id" value="test HttpService Call DeleteMaintenance With Correct ID"/>
+    <property name="HttpService - Maintenance should search maintenance returns empty array when none found" value="test HttpService Search Maintenance Returns Empty Array When None Found"/>
+    <property name="HttpService - Maintenance should call addMaintenance with correct vehicleId in URL" value="test HttpService Call AddMaintenance With Correct VehicleId In URL"/>
+
+    <!-- insurance.service.spec.ts — HttpService Insurance Methods -->
+    <property name="HttpService - Insurance should get all insurance records" value="test HttpService Get All Insurance Records"/>
+    <property name="HttpService - Insurance should add insurance with vehicleId param" value="test HttpService Add Insurance With VehicleId Param"/>
+    <property name="HttpService - Insurance should update insurance" value="test HttpService Update Insurance"/>
+    <property name="HttpService - Insurance should delete insurance" value="test HttpService Delete Insurance"/>
+    <property name="HttpService - Insurance should get insurance by id" value="test HttpService Get Insurance By ID"/>
+    <property name="HttpService - Insurance should search insurance by provider name" value="test HttpService Search Insurance By Provider Name"/>
+    <property name="HttpService - Insurance should filter insurance by coverage type Full" value="test HttpService Filter Insurance By Coverage Type Full"/>
+    <property name="HttpService - Insurance should filter insurance by coverage type Third-party" value="test HttpService Filter Insurance By Coverage Type Third Party"/>
+    <property name="HttpService - Insurance should sort insurance by premium asc" value="test HttpService Sort Insurance By Premium Ascending"/>
+    <property name="HttpService - Insurance should sort insurance by premium desc" value="test HttpService Sort Insurance By Premium Descending"/>
+    <property name="HttpService - Insurance should include Authorization header for getAllInsurance" value="test HttpService Include Authorization Header For GetAllInsurance"/>
+    <property name="HttpService - Insurance should include Content-Type for addInsurance" value="test HttpService Include Content-Type Header For AddInsurance"/>
+    <property name="HttpService - Insurance should send correct body for updateInsurance" value="test HttpService Send Correct Body For UpdateInsurance"/>
+    <property name="HttpService - Insurance should call deleteInsurance with correct id" value="test HttpService Call DeleteInsurance With Correct ID"/>
+    <property name="HttpService - Insurance should return empty array when search finds nothing" value="test HttpService Insurance Search Returns Empty Array When Nothing Found"/>
+
+</properties>
