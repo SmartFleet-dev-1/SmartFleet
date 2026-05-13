@@ -12,10 +12,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.edutech.entity.User;
+import com.edutech.exception.ResourceNotFoundException;
 import com.edutech.repository.UserRepository;
 
-
+@Service
 public class UserService {
 
-     //Add the required code here!
+     @Autowired
+     private UserRepository userRepository;
+
+     // ✅ Find user by username
+     public User findByUsername(String username) {
+          return userRepository.findByUsername(username)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+     }
+
+     // ✅ Check if username exists
+     public boolean existsByUsername(String username) {
+          return userRepository.existsByUsername(username);
+     }
+
+     // ✅ Save user
+     public User saveUser(User user) {
+          return userRepository.save(user);
+     }
+     
+
 }

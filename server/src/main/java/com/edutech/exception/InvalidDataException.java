@@ -2,5 +2,8 @@ package com.edutech.exception;
 
 public class InvalidDataException extends RuntimeException {
 
-     //Add the required code here!
+    public InvalidDataException(String message) {
+        super(message);
+    }
+     
 }
