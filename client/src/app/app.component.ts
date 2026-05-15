@@ -8,17 +8,21 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
-title = 'SmartFleet Pro';
+
+  title = 'SmartFleet Pro';
 
   constructor(
     public authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    const confirmLogout = confirm('Are you sure you want to logout?');
+    if (confirmLogout) {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
+
   }
 
 }

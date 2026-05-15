@@ -1,1 +1,383 @@
-<!-- Add the required code here! -->
+
+<div class="insurance-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-icon">🛡️</div>
+    <div>
+      <h2>Insurance Details</h2>
+      <p>Manage vehicle insurance records, expiry alerts, coverage and premium details</p>
+    </div>
+  </div>
+
+  <!-- Add / Edit Insurance Form -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>{{ editing ? 'Update Insurance Record' : 'Add Insurance Record' }}</h3>
+        <p>{{ editing ? 'Modify existing policy information' : 'Create a new insurance policy for a vehicle' }}</p>
+      </div>
+
+      <span class="section-badge">
+        {{ editing ? 'Edit Mode' : 'New Record' }}
+      </span>
+    </div>
+
+    <form [formGroup]="insuranceForm" (ngSubmit)="saveInsurance()" novalidate>
+
+      <div class="form-grid">
+
+        <!-- Vehicle -->
+        <div class="form-group">
+          <label>Vehicle <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="vehicleId"
+            [class.is-invalid]="isInvalid('vehicleId')">
+
+            <option value="">-- Select Vehicle --</option>
+
+            <option
+              *ngFor="let vehicle of vehicles"
+              [value]="vehicle.vehicleId">
+              {{ vehicle.vehicleNumber }} - {{ vehicle.brand }} {{ vehicle.model }}
+            </option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('vehicleId') && insuranceForm.get('vehicleId')?.hasError('required')">
+            Vehicle is required.
+          </small>
+        </div>
+
+        <!-- Provider Name -->
+        <div class="form-group">
+          <label>Provider Name <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. HDFC Ergo"
+            formControlName="providerName"
+            [class.is-invalid]="isInvalid('providerName')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('providerName') && insuranceForm.get('providerName')?.hasError('required')">
+            Provider name is required.
+          </small>
+        </div>
+
+        <!-- Policy Number -->
+        <div class="form-group">
+          <label>Policy Number <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Unique policy number"
+            formControlName="policyNumber"
+            [class.is-invalid]="isInvalid('policyNumber')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('policyNumber') && insuranceForm.get('policyNumber')?.hasError('required')">
+            Policy number is required.
+          </small>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+          <label>Start Date <span>*</span></label>
+
+          <input
+            type="date"
+            class="form-control"
+            formControlName="startDate"
+            [class.is-invalid]="isInvalid('startDate') || hasDateRangeError()"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('startDate') && insuranceForm.get('startDate')?.hasError('required')">
+            Start date is required.
+          </small>
+        </div>
+
+        <!-- End Date -->
+        <div class="form-group">
+          <label>End Date <span>*</span></label>
+
+          <input
+            type="date"
+            class="form-control"
+            formControlName="endDate"
+            [class.is-invalid]="isInvalid('endDate') || hasDateRangeError()"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('endDate') && insuranceForm.get('endDate')?.hasError('required')">
+            End date is required.
+          </small>
+
+          <small class="error" *ngIf="hasDateRangeError()">
+            End date must be after start date.
+          </small>
+        </div>
+
+        <!-- Premium Amount -->
+        <div class="form-group">
+          <label>Premium Amount (₹) <span>*</span></label>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0"
+            formControlName="premiumAmount"
+            [class.is-invalid]="isInvalid('premiumAmount')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('premiumAmount') && insuranceForm.get('premiumAmount')?.hasError('required')">
+            Premium amount is required.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('premiumAmount') && insuranceForm.get('premiumAmount')?.hasError('min')">
+            Premium amount must be greater than 0.
+          </small>
+        </div>
+
+        <!-- Coverage Type -->
+        <div class="form-group">
+          <label>Coverage Type <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="coverageType"
+            [class.is-invalid]="isInvalid('coverageType')">
+
+            <option value="">Select Coverage Type</option>
+            <option value="Full">Full</option>
+            <option value="Third-party">Third-party</option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('coverageType') && insuranceForm.get('coverageType')?.hasError('required')">
+            Coverage type is required.
+          </small>
+        </div>
+
+      </div>
+
+      <!-- Messages -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        ✅ {{ successMessage }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn-primary-dark">
+          {{ editing ? 'Update Insurance' : 'Add Insurance' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn-outline-dark"
+          *ngIf="editing"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Search / Filter / Sort -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Search & Filter</h3>
+        <p>Find insurance records by provider, coverage type or premium amount</p>
+      </div>
+    </div>
+
+    <div class="filter-grid">
+
+      <!-- Search Provider -->
+      <div class="filter-item">
+        <label>Search by Provider</label>
+
+        <div class="input-action">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Provider name"
+            [(ngModel)]="searchProviderName"
+          />
+
+          <button type="button" class="btn-primary-dark" (click)="searchByProvider()">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Coverage Filter -->
+      <div class="filter-item">
+        <label>Filter by Coverage Type</label>
+
+        <div class="input-action">
+          <select
+            class="form-control"
+            [(ngModel)]="filterCoverageType">
+
+            <option value="">All</option>
+            <option value="Full">Full</option>
+            <option value="Third-party">Third-party</option>
+          </select>
+
+          <button type="button" class="btn-primary-dark" (click)="filterByCoverageType()">
+            Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="filter-item">
+        <label>&nbsp;</label>
+
+        <button type="button" class="btn-reset" (click)="resetFilters()">
+          Reset
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sort -->
+    <div class="sort-box">
+      <span>Sort by Premium:</span>
+
+      <button type="button" class="sort-btn" (click)="sortByPremium('asc')">
+        ↑ Asc
+      </button>
+
+      <button type="button" class="sort-btn" (click)="sortByPremium('desc')">
+        ↓ Desc
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Insurance Records Table -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Insurance Records</h3>
+        <p>{{ insuranceRecords.length }} record(s) available</p>
+      </div>
+
+      <span class="records-count">
+        {{ insuranceRecords.length }}
+      </span>
+    </div>
+
+    <div class="table-wrapper">
+
+      <table class="insurance-table">
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Vehicle</th>
+            <th>Provider</th>
+            <th>Policy No.</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Premium</th>
+            <th>Coverage</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let record of insuranceRecords; let i = index"
+            [class.expiring-row]="isExpiringSoon(record.endDate)">
+
+            <td>{{ i + 1 }}</td>
+
+            <td class="vehicle-cell">
+              {{ getVehicleDisplay(record.vehicle) }}
+            </td>
+
+            <td>{{ record.providerName }}</td>
+            <td>{{ record.policyNumber }}</td>
+            <td>{{ record.startDate }}</td>
+
+            <td>
+              {{ record.endDate }}
+
+              <span
+                class="expiring-badge"
+                *ngIf="isExpiringSoon(record.endDate)">
+                Expiring Soon
+              </span>
+            </td>
+
+            <td class="premium-cell">
+              ₹{{ record.premiumAmount }}
+            </td>
+
+            <td>
+              <span
+                class="coverage-badge"
+                [class.coverage-full]="record.coverageType === 'Full'"
+                [class.coverage-third]="record.coverageType === 'Third-party'">
+                {{ record.coverageType }}
+              </span>
+            </td>
+
+            <td class="action-cell">
+              <button type="button" class="btn-edit" (click)="editInsurance(record)">
+                Edit
+              </button>
+
+              <button type="button" class="btn-delete" (click)="deleteInsurance(record.insuranceId)">
+                Delete
+              </button>
+            </td>
+
+          </tr>
+
+          <tr *ngIf="insuranceRecords.length === 0">
+            <td colspan="9" class="no-records">
+              No insurance records found.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

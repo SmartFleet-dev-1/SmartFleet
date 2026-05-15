@@ -1,123 +1,314 @@
-<div class="auth-page">
 
-  <div class="auth-card">
+<div class="register-command-page">
 
-    <div class="top-line"></div>
+  <!-- Top Live Stats Strip -->
+  <div class="stats-strip">
+    <div class="marquee">
+      🟢 14,302 fleets managed · 3.2M vehicles tracked live · 99.97% uptime · SmartFleet Pro command network online ·
+      🟢 14,302 fleets managed · 3.2M vehicles tracked live · 99.97% uptime · SmartFleet Pro command network online ·
+    </div>
+  </div>
 
-    <div class="auth-header">
-      <h2>🚚 CREATE ACCOUNT</h2>
-      <p>Register as Admin</p>
+  <!-- Animated Background Layers -->
+  <div class="bg-layer"></div>
+  <div class="bg-overlay"></div>
+  <div class="noise-layer"></div>
+  <div class="hex-grid"></div>
+
+  <!-- Floating Vehicles in Page Background -->
+  <div class="vehicle-bg vehicle-bg-1">🚚</div>
+  <div class="vehicle-bg vehicle-bg-2">🚛</div>
+  <div class="vehicle-bg vehicle-bg-3">🚐</div>
+  <div class="vehicle-bg vehicle-bg-4">🚗</div>
+  <div class="vehicle-bg vehicle-bg-5">🚚</div>
+
+  <!-- Floating Data Streams -->
+  <div class="data-streams">
+    <span>GPS 28.6139°N 77.2090°E</span>
+    <span>ROUTE SYNC 04A</span>
+    <span>FLEET NODE ACTIVE</span>
+    <span>ETA VECTOR LOCKED</span>
+    <span>COMMAND LINK SECURE</span>
+    <span>VEHICLE TELEMETRY ONLINE</span>
+  </div>
+
+  <!-- Animated Route Lines -->
+  <svg class="world-routes" viewBox="0 0 1200 600" preserveAspectRatio="none">
+    <path d="M80 420 C250 280 390 360 520 250 C700 100 850 220 1080 130"></path>
+    <path d="M120 180 C310 260 420 170 620 310 C780 430 940 320 1120 450"></path>
+
+    <circle cx="520" cy="250" r="8"></circle>
+    <circle cx="850" cy="220" r="8"></circle>
+    <circle cx="1080" cy="130" r="8"></circle>
+  </svg>
+
+  <!-- Registration Card -->
+  <div class="register-card">
+
+    <div class="card-glow"></div>
+
+    <!-- Vehicles inside Card Background -->
+    <div class="card-vehicle card-vehicle-1">🚚</div>
+    <div class="card-vehicle card-vehicle-2">🚛</div>
+    <div class="card-vehicle card-vehicle-3">🚐</div>
+
+    <div class="card-road-line card-road-line-1"></div>
+    <div class="card-road-line card-road-line-2"></div>
+
+    <!-- Brand Header -->
+    <div class="brand-header">
+      <div class="logo-orb">
+        🚚
+      </div>
+
+      <div>
+        <h1>SmartFleet Pro</h1>
+        <p>Your Fleet. Fully Commanded.</p>
+      </div>
     </div>
 
+    <!-- Single Access Status -->
+    <div class="access-status">
+      <div class="access-node active">
+        <span>1</span>
+      </div>
+
+      <div class="access-line"></div>
+
+      <div class="access-text">
+        <strong>Admin Access Registration</strong>
+        <small>Identity verification · Secure command profile · Fleet dashboard access</small>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="form-title">
+      <h2>Create Command Access</h2>
+      <p>Register as SmartFleet Pro Admin and initialize your fleet control profile.</p>
+    </div>
+
+    <!-- Success Message -->
     <div class="alert alert-success" *ngIf="successMessage">
-      {{ successMessage }}
+      ✅ {{ successMessage }}
     </div>
 
+    <!-- Error Message -->
     <div class="alert alert-danger" *ngIf="errorMessage">
-      {{ errorMessage }}
+      ⚠️ {{ errorMessage }}
     </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <!-- Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
 
-      <!-- Username -->
-      <div class="form-group">
-        <label>Username</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Username"
-          formControlName="username"
-        />
+      <div class="form-grid">
 
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('username')?.hasError('required')">
-          Please enter username.
-        </small>
+        <!-- Username -->
+        <div class="form-group field-delay-1">
+          <label>Username</label>
+
+          <div class="input-shell">
+            <span class="input-icon">👤</span>
+
+            <input
+              type="text"
+              placeholder="Enter admin username"
+              formControlName="username"
+              [class.is-invalid]="isInvalid('username')"
+              [class.is-valid]="registerForm.get('username')?.valid && registerForm.get('username')?.touched"
+            />
+
+            <span
+              class="valid-check"
+              *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
+              ✓
+            </span>
+          </div>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('username') && registerForm.get('username')?.hasError('required')">
+            Username is required.
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group field-delay-2">
+          <label>Email Address</label>
+
+          <div class="input-shell">
+            <span class="input-icon">✉</span>
+
+            <input
+              type="email"
+              placeholder="name@company.com"
+              formControlName="email"
+              [class.is-invalid]="isInvalid('email')"
+              [class.is-valid]="registerForm.get('email')?.valid && registerForm.get('email')?.touched"
+            />
+
+            <span
+              class="valid-check"
+              *ngIf="registerForm.get('email')?.valid && registerForm.get('email')?.touched">
+              ✓
+            </span>
+          </div>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('email') && registerForm.get('email')?.hasError('required')">
+            Email is required.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('email') && registerForm.get('email')?.hasError('email')">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group field-delay-3">
+          <label>Password</label>
+
+          <div class="input-shell">
+            <span class="input-icon">🔒</span>
+
+            <input
+              type="password"
+              placeholder="Create secure password"
+              formControlName="password"
+              [class.is-invalid]="isInvalid('password')"
+              [class.is-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched"
+            />
+
+            <span
+              class="valid-check"
+              *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+              ✓
+            </span>
+          </div>
+
+          <div class="static-strength">
+            <span></span>
+            <span></span>
+            <span></span>
+            <small>Secure access credential</small>
+          </div>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('password') && registerForm.get('password')?.hasError('required')">
+            Password is required.
+          </small>
+        </div>
+
+        <!-- Contact Number -->
+        <div class="form-group field-delay-4">
+          <label>Contact Number</label>
+
+          <div class="input-shell">
+            <span class="input-icon">📱</span>
+
+            <input
+              type="text"
+              maxlength="10"
+              placeholder="10 digit contact number"
+              formControlName="contactNumber"
+              [class.is-invalid]="isInvalid('contactNumber')"
+              [class.is-valid]="registerForm.get('contactNumber')?.valid && registerForm.get('contactNumber')?.touched"
+            />
+
+            <span
+              class="valid-check"
+              *ngIf="registerForm.get('contactNumber')?.valid && registerForm.get('contactNumber')?.touched">
+              ✓
+            </span>
+          </div>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('contactNumber') && registerForm.get('contactNumber')?.hasError('pattern')">
+            Contact number must be exactly 10 digits.
+          </small>
+        </div>
+
+        <!-- Role -->
+        <div class="form-group full-width field-delay-5">
+          <label>Access Role</label>
+
+          <div class="input-shell">
+            <span class="input-icon">🛡️</span>
+
+            <select
+              formControlName="role"
+              [class.is-invalid]="isInvalid('role')"
+              [class.is-valid]="registerForm.get('role')?.valid && registerForm.get('role')?.touched">
+              <option value="">Select role</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+
+            <span
+              class="valid-check"
+              *ngIf="registerForm.get('role')?.valid && registerForm.get('role')?.touched">
+              ✓
+            </span>
+          </div>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('role') && registerForm.get('role')?.hasError('required')">
+            Role is required.
+          </small>
+        </div>
+
       </div>
 
-      <!-- Email -->
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          type="email"
-          class="form-control"
-          placeholder="name@example.com"
-          formControlName="email"
-        />
-
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('email')?.hasError('required')">
-          Please enter email.
-        </small>
-
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('email')?.hasError('email')">
-          Please enter a valid email.
-        </small>
+      <!-- Insight Callout -->
+      <div class="insight-callout">
+        <div class="insight-icon">📡</div>
+        <div>
+          <strong>Command profile ready</strong>
+          <p>Companies using SmartFleet Pro reduce manual fleet tracking effort and improve operational visibility.</p>
+        </div>
       </div>
 
-      <!-- Password -->
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          type="password"
-          class="form-control"
-          placeholder="********"
-          formControlName="password"
-        />
-
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('password')?.hasError('required')">
-          Please enter password.
-        </small>
-      </div>
-
-      <!-- Contact Number -->
-      <div class="form-group">
-        <label>Contact Number</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Contact Number"
-          formControlName="contactNumber"
-        />
-
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('contactNumber')?.hasError('pattern')">
-          Contact number must be exactly 10 digits.
-        </small>
-      </div>
-
-      <!-- Role -->
-      <div class="form-group">
-        <label>Role</label>
-        <select class="form-control" formControlName="role">
-          <option value="ADMIN">ADMIN</option>
-        </select>
-
-        <small
-          class="error"
-          *ngIf="submitted && registerForm.get('role')?.hasError('required')">
-          Please select role.
-        </small>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn-submit">
-        Register
+      <!-- Submit -->
+      <button type="submit" class="btn-launch">
+        Launch My Fleet Dashboard
+        <span>→</span>
       </button>
 
     </form>
 
-    <div class="auth-link">
-      <a routerLink="/login">Go to Login</a>
+    <!-- Login Link -->
+    <div class="login-link">
+      Already have access?
+      <button type="button" (click)="goToLogin()">Login</button>
     </div>
 
+  </div>
+
+</div>
+<!-- Launch Car Animation Overlay -->
+<div class="launch-overlay" *ngIf="launching">
+
+  <div class="launch-grid"></div>
+
+  <div class="launch-message">
+    <div class="launch-badge">ACCESS GRANTED</div>
+    <h2>Initializing Command Center</h2>
+    <p>Redirecting to login gateway...</p>
+  </div>
+
+  <div class="road">
+    <div class="road-line"></div>
+    <div class="speed-line speed-line-1"></div>
+    <div class="speed-line speed-line-2"></div>
+    <div class="speed-line speed-line-3"></div>
+
+    <div class="launch-car">
+      🚗
+    </div>
   </div>
 
 </div>

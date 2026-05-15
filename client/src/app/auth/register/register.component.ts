@@ -9,16 +9,19 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  
- registerForm: FormGroup;
+
+  registerForm: FormGroup;
   submitted: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
 
+  // Added for launch car animation overlay
+  launching: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private httpService: AuthService
+    private authService: AuthService
   ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
@@ -38,17 +41,20 @@ export class RegisterComponent {
       return;
     }
 
-    this.httpService.register(this.registerForm.value).subscribe({
+    this.authService.register(this.registerForm.value).subscribe({
       next: () => {
-        this.successMessage = 'Registration successful. Please login.';
+        this.successMessage = 'Access granted. Redirecting to login...';
+        this.launching = true;
 
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 1000);
+        }, 2200);
       },
       error: (error) => {
-        if (error.error) {
+        if (error.error && typeof error.error === 'string') {
           this.errorMessage = error.error;
+        } else if (error.error?.message) {
+          this.errorMessage = error.error.message;
         } else {
           this.errorMessage = 'Registration failed. Please try again.';
         }
@@ -60,4 +66,13 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 
+  isInvalid(controlName: string): boolean {
+    const control = this.registerForm.get(controlName);
+
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || this.submitted)
+    );
+  }
 }

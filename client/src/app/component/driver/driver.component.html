@@ -1,1 +1,322 @@
-<!-- Add the required code here! -->
+
+<div class="driver-page">
+
+  <div class="page-title">
+    <h2>👤 Manage Drivers</h2>
+  </div>
+
+  <!-- Add/Edit Driver Form -->
+  <div class="card-section">
+
+    <div class="card-header">
+      {{ editing ? 'Update Driver' : 'Add New Driver' }}
+    </div>
+
+    <div class="card-body">
+
+      <form [formGroup]="driverForm" (ngSubmit)="saveDriver()" novalidate>
+
+        <div class="form-grid">
+
+          <!-- Driver Name -->
+          <div class="form-group">
+            <label>Driver Name <span>*</span></label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Full name"
+              formControlName="driverName"
+              [class.is-invalid]="isInvalid('driverName')"
+            />
+
+            <small
+              class="error"
+              *ngIf="isInvalid('driverName') && driverForm.get('driverName')?.hasError('required')">
+              Driver name is required.
+            </small>
+          </div>
+
+          <!-- License Number -->
+          <div class="form-group">
+            <label>License Number <span>*</span></label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="e.g. TN0120234567"
+              formControlName="licenseNumber"
+              [class.is-invalid]="isInvalid('licenseNumber')"
+            />
+
+            <small
+              class="error"
+              *ngIf="isInvalid('licenseNumber') && driverForm.get('licenseNumber')?.hasError('required')">
+              License number is required.
+            </small>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-group">
+            <label>Phone Number <span>*</span></label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="10-digit number"
+              maxlength="10"
+              formControlName="phoneNumber"
+              [class.is-invalid]="isInvalid('phoneNumber')"
+            />
+
+            <small
+              class="error"
+              *ngIf="isInvalid('phoneNumber') && driverForm.get('phoneNumber')?.hasError('required')">
+              Phone number is required.
+            </small>
+
+            <small
+              class="error"
+              *ngIf="isInvalid('phoneNumber') && driverForm.get('phoneNumber')?.hasError('pattern')">
+              Phone number must be exactly 10 digits.
+            </small>
+          </div>
+
+          <!-- Experience -->
+          <div class="form-group">
+            <label>Experience (Years) <span>*</span></label>
+
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0"
+              formControlName="experienceYears"
+              [class.is-invalid]="isInvalid('experienceYears')"
+            />
+
+            <small
+              class="error"
+              *ngIf="isInvalid('experienceYears') && driverForm.get('experienceYears')?.hasError('required')">
+              Experience is required.
+            </small>
+
+            <small
+              class="error"
+              *ngIf="isInvalid('experienceYears') && driverForm.get('experienceYears')?.hasError('min')">
+              Experience cannot be negative.
+            </small>
+          </div>
+
+          <!-- Address -->
+          <div class="form-group">
+            <label>Address <span>*</span></label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Full address"
+              formControlName="address"
+              [class.is-invalid]="isInvalid('address')"
+            />
+
+            <small
+              class="error"
+              *ngIf="isInvalid('address') && driverForm.get('address')?.hasError('required')">
+              Address is required.
+            </small>
+          </div>
+
+          <!-- Availability -->
+          <div class="form-group">
+            <label>Availability Status <span>*</span></label>
+
+            <select
+              class="form-control"
+              formControlName="availabilityStatus"
+              [class.is-invalid]="isInvalid('availabilityStatus')">
+              <option value="">Select Status</option>
+              <option value="Available">Available</option>
+              <option value="Assigned">Assigned</option>
+            </select>
+
+            <small
+              class="error"
+              *ngIf="isInvalid('availabilityStatus') && driverForm.get('availabilityStatus')?.hasError('required')">
+              Availability status is required.
+            </small>
+          </div>
+
+        </div>
+
+        <!-- Messages -->
+        <div class="alert alert-success" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+          <button type="submit" class="btn-dark">
+            {{ editing ? 'Update Driver' : 'Add Driver' }}
+          </button>
+
+          <button
+            type="button"
+            class="btn-light"
+            *ngIf="editing"
+            (click)="cancelEdit()">
+            Cancel
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- Search and Filter -->
+  <div class="card-section">
+
+    <div class="card-header">
+      Search & Filter
+    </div>
+
+    <div class="card-body">
+
+      <div class="filter-grid">
+
+        <!-- Search -->
+        <div class="filter-item">
+          <label>Search by Name</label>
+
+          <div class="input-with-button">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Driver name"
+              [(ngModel)]="searchName"
+            />
+
+            <button type="button" class="btn-dark" (click)="searchByName()">
+              Search
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="filter-item">
+          <label>Filter by Availability</label>
+
+          <div class="input-with-button">
+            <select class="form-control" [(ngModel)]="filterStatus">
+              <option value="">All</option>
+              <option value="Available">Available</option>
+              <option value="Assigned">Assigned</option>
+            </select>
+
+            <button type="button" class="btn-dark" (click)="filterByAvailability()">
+              Filter
+            </button>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <div class="filter-item">
+          <label>&nbsp;</label>
+
+          <button type="button" class="btn-reset" (click)="resetFilters()">
+            Reset
+          </button>
+        </div>
+
+      </div>
+
+      <div class="sort-row">
+        <strong>Sort by Experience:</strong>
+
+        <button type="button" class="sort-btn" (click)="sortByExperience('asc')">
+          ↑ Asc
+        </button>
+
+        <button type="button" class="sort-btn" (click)="sortByExperience('desc')">
+          ↓ Desc
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Driver List -->
+  <div class="card-section">
+
+    <div class="card-header">
+      Driver List ({{ drivers.length }} records)
+    </div>
+
+    <div class="table-wrapper">
+
+      <table class="driver-table">
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>License Number</th>
+            <th>Phone</th>
+            <th>Experience</th>
+            <th>Address</th>
+            <th>Availability</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let driver of drivers; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ driver.driverName }}</td>
+            <td>{{ driver.licenseNumber }}</td>
+            <td>{{ driver.phoneNumber }}</td>
+            <td>{{ driver.experienceYears }} yrs</td>
+            <td>{{ driver.address }}</td>
+
+            <td>
+              <span
+                class="badge"
+                [class.badge-available]="driver.availabilityStatus === 'Available'"
+                [class.badge-assigned]="driver.availabilityStatus === 'Assigned'">
+                {{ driver.availabilityStatus }}
+              </span>
+            </td>
+
+            <td>
+              <button type="button" class="btn-edit" (click)="editDriver(driver)">
+                Edit
+              </button>
+
+              <button type="button" class="btn-delete" (click)="deleteDriver(driver.driverId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="drivers.length === 0">
+            <td colspan="8" class="no-records">
+              No driver records found.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

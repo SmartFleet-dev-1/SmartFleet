@@ -1,1 +1,448 @@
-<!-- Add the required code here! -->
+
+<div class="vehicle-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-icon">🚚</div>
+
+    <div>
+      <h2>Manage Vehicles</h2>
+      <p>Register vehicles, update details, assign drivers and track fleet status</p>
+    </div>
+  </div>
+
+  <!-- Add/Edit Vehicle Form -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>{{ editing ? 'Update Vehicle' : 'Add New Vehicle' }}</h3>
+        <p>{{ editing ? 'Modify existing vehicle details' : 'Create a new vehicle record for your fleet' }}</p>
+      </div>
+
+      <span class="section-badge">
+        {{ editing ? 'Edit Mode' : 'New Vehicle' }}
+      </span>
+    </div>
+
+    <form [formGroup]="vehicleForm" (ngSubmit)="saveVehicle()" novalidate>
+
+      <div class="form-grid">
+
+        <!-- Vehicle Number -->
+        <div class="form-group">
+          <label>Vehicle Number <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. TN01AB1234"
+            formControlName="vehicleNumber"
+            [class.is-invalid]="isInvalid('vehicleNumber')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('vehicleNumber') && vehicleForm.get('vehicleNumber')?.hasError('required')">
+            Vehicle number is required.
+          </small>
+        </div>
+
+        <!-- Vehicle Type -->
+        <div class="form-group">
+          <label>Vehicle Type <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="vehicleType"
+            [class.is-invalid]="isInvalid('vehicleType')">
+            <option value="">-- Select Type --</option>
+            <option value="Truck">Truck</option>
+            <option value="Van">Van</option>
+            <option value="Car">Car</option>
+            <option value="Bus">Bus</option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('vehicleType') && vehicleForm.get('vehicleType')?.hasError('required')">
+            Vehicle type is required.
+          </small>
+        </div>
+
+        <!-- Brand -->
+        <div class="form-group">
+          <label>Brand <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Toyota"
+            formControlName="brand"
+            [class.is-invalid]="isInvalid('brand')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('brand') && vehicleForm.get('brand')?.hasError('required')">
+            Brand is required.
+          </small>
+        </div>
+
+        <!-- Model -->
+        <div class="form-group">
+          <label>Model <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Hilux"
+            formControlName="model"
+            [class.is-invalid]="isInvalid('model')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('model') && vehicleForm.get('model')?.hasError('required')">
+            Model is required.
+          </small>
+        </div>
+
+        <!-- Manufacturing Year -->
+        <div class="form-group">
+          <label>Manufacturing Year <span>*</span></label>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder="e.g. 2020"
+            formControlName="manufacturingYear"
+            [class.is-invalid]="isInvalid('manufacturingYear')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('manufacturingYear') && vehicleForm.get('manufacturingYear')?.hasError('required')">
+            Manufacturing year is required.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('manufacturingYear') && vehicleForm.get('manufacturingYear')?.hasError('min')">
+            Year must be greater than or equal to 1900.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('manufacturingYear') && vehicleForm.get('manufacturingYear')?.hasError('max')">
+            Year must be less than or equal to 2100.
+          </small>
+        </div>
+
+        <!-- Fuel Type -->
+        <div class="form-group">
+          <label>Fuel Type <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="fuelType"
+            [class.is-invalid]="isInvalid('fuelType')">
+            <option value="">-- Select Fuel --</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Electric">Electric</option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('fuelType') && vehicleForm.get('fuelType')?.hasError('required')">
+            Fuel type is required.
+          </small>
+        </div>
+
+        <!-- Mileage -->
+        <div class="form-group">
+          <label>Mileage (km) <span>*</span></label>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0"
+            formControlName="mileage"
+            [class.is-invalid]="isInvalid('mileage')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('mileage') && vehicleForm.get('mileage')?.hasError('required')">
+            Mileage is required.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('mileage') && vehicleForm.get('mileage')?.hasError('min')">
+            Mileage cannot be negative.
+          </small>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+          <label>Status <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="status"
+            [class.is-invalid]="isInvalid('status')">
+            <option value="">-- Select Status --</option>
+            <option value="Active">Active</option>
+            <option value="Under Service">Under Service</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('status') && vehicleForm.get('status')?.hasError('required')">
+            Status is required.
+          </small>
+        </div>
+
+      </div>
+
+      <!-- Messages -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        ✅ {{ successMessage }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn-primary-dark">
+          {{ editing ? 'Update Vehicle' : 'Add Vehicle' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn-outline-dark"
+          *ngIf="editing"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Search and Filter -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Search & Filter</h3>
+        <p>Search vehicles by number, brand, status, year and mileage</p>
+      </div>
+    </div>
+
+    <div class="filter-grid">
+
+      <!-- Search Vehicle Number -->
+      <div class="filter-item">
+        <label>Search by Vehicle Number</label>
+
+        <div class="input-action">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Vehicle number"
+            [(ngModel)]="searchVehicleNumber"
+          />
+
+          <button type="button" class="btn-primary-dark" (click)="searchByVehicleNumber()">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Brand -->
+      <div class="filter-item">
+        <label>Search by Brand</label>
+
+        <div class="input-action">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Brand name"
+            [(ngModel)]="searchBrand"
+          />
+
+          <button type="button" class="btn-primary-dark" (click)="searchByBrand()">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Status -->
+      <div class="filter-item">
+        <label>Filter by Status</label>
+
+        <div class="input-action">
+          <select
+            class="form-control"
+            [(ngModel)]="filterStatus">
+            <option value="">All</option>
+            <option value="Active">Active</option>
+            <option value="Under Service">Under Service</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+
+          <button type="button" class="btn-primary-dark" (click)="filterByStatus()">
+            Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="filter-item">
+        <label>&nbsp;</label>
+
+        <button type="button" class="btn-reset" (click)="resetFilters()">
+          Reset
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sort -->
+    <div class="sort-box">
+      <span>Sort by Year:</span>
+
+      <button type="button" class="sort-btn" (click)="sortByYear('asc')">
+        ↑ Asc
+      </button>
+
+      <button type="button" class="sort-btn" (click)="sortByYear('desc')">
+        ↓ Desc
+      </button>
+
+      <span class="sort-separator">|</span>
+
+      <span>Sort by Mileage:</span>
+
+      <button type="button" class="sort-btn" (click)="sortByMileage('asc')">
+        ↑ Asc
+      </button>
+
+      <button type="button" class="sort-btn" (click)="sortByMileage('desc')">
+        ↓ Desc
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Vehicle List -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Vehicle List</h3>
+        <p>{{ vehicles.length }} vehicle record(s) available</p>
+      </div>
+
+      <span class="records-count">
+        {{ vehicles.length }}
+      </span>
+    </div>
+
+    <div class="table-wrapper">
+
+      <table class="vehicle-table">
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Vehicle No</th>
+            <th>Type</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Fuel</th>
+            <th>Mileage</th>
+            <th>Status</th>
+            <th>Driver</th>
+            <th>Assign Driver</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let vehicle of vehicles; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td class="vehicle-number">{{ vehicle.vehicleNumber }}</td>
+            <td>{{ vehicle.vehicleType }}</td>
+            <td>{{ vehicle.brand }}</td>
+            <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.manufacturingYear }}</td>
+            <td>{{ vehicle.fuelType }}</td>
+
+            <td class="mileage-cell">
+              {{ vehicle.mileage }} km
+            </td>
+
+            <td>
+              <span
+                class="status-badge"
+                [class.status-active]="vehicle.status === 'Active'"
+                [class.status-service]="vehicle.status === 'Under Service'"
+                [class.status-inactive]="vehicle.status === 'Inactive'">
+                {{ vehicle.status }}
+              </span>
+            </td>
+
+            <td>
+              {{ getDriverName(vehicle) }}
+            </td>
+
+            <td>
+              <select
+                class="assign-select"
+                (change)="assignDriverToVehicle(vehicle.vehicleId, $event)">
+                <option value="">Assign...</option>
+
+                <option
+                  *ngFor="let driver of getAvailableDrivers()"
+                  [value]="driver.driverId">
+                  {{ driver.driverName }}
+                </option>
+              </select>
+            </td>
+
+            <td class="action-cell">
+              <button type="button" class="btn-edit" (click)="editVehicle(vehicle)">
+                Edit
+              </button>
+
+              <button type="button" class="btn-delete" (click)="deleteVehicle(vehicle.vehicleId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="vehicles.length === 0">
+            <td colspan="12" class="no-records">
+              No vehicle records found.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,1 +1,358 @@
-<!-- Add the required code here! -->
+
+<div class="maintenance-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-icon">⚙️</div>
+
+    <div>
+      <h2>Maintenance Records</h2>
+      <p>Track vehicle services, service costs, next service dates and remarks</p>
+    </div>
+  </div>
+
+  <!-- Add/Edit Form -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>{{ editing ? 'Update Maintenance Record' : 'Add Maintenance Record' }}</h3>
+        <p>{{ editing ? 'Modify service information' : 'Create a new service record for a vehicle' }}</p>
+      </div>
+
+      <span class="section-badge">
+        {{ editing ? 'Edit Mode' : 'New Record' }}
+      </span>
+    </div>
+
+    <form [formGroup]="maintenanceForm" (ngSubmit)="saveMaintenance()" novalidate>
+
+      <div class="form-grid">
+
+        <!-- Vehicle -->
+        <div class="form-group">
+          <label>Vehicle <span>*</span></label>
+
+          <select
+            class="form-control"
+            formControlName="vehicleId"
+            [class.is-invalid]="isInvalid('vehicleId')">
+
+            <option value="">-- Select Vehicle --</option>
+
+            <option
+              *ngFor="let vehicle of vehicles"
+              [value]="vehicle.vehicleId">
+              {{ vehicle.vehicleNumber }} - {{ vehicle.brand }} {{ vehicle.model }}
+            </option>
+          </select>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('vehicleId') && maintenanceForm.get('vehicleId')?.hasError('required')">
+            Vehicle is required.
+          </small>
+        </div>
+
+        <!-- Service Date -->
+        <div class="form-group">
+          <label>Service Date <span>*</span></label>
+
+          <input
+            type="date"
+            class="form-control"
+            formControlName="serviceDate"
+            [max]="today"
+            [class.is-invalid]="isInvalid('serviceDate') || hasServiceDateFutureError()"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('serviceDate') && maintenanceForm.get('serviceDate')?.hasError('required')">
+            Service date is required.
+          </small>
+
+          <small class="error" *ngIf="hasServiceDateFutureError()">
+            Service date cannot be in the future.
+          </small>
+        </div>
+
+        <!-- Service Type -->
+        <div class="form-group">
+          <label>Service Type <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Oil Change"
+            formControlName="serviceType"
+            [class.is-invalid]="isInvalid('serviceType')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('serviceType') && maintenanceForm.get('serviceType')?.hasError('required')">
+            Service type is required.
+          </small>
+        </div>
+
+        <!-- Service Center -->
+        <div class="form-group">
+          <label>Service Center <span>*</span></label>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Center name"
+            formControlName="serviceCenter"
+            [class.is-invalid]="isInvalid('serviceCenter')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('serviceCenter') && maintenanceForm.get('serviceCenter')?.hasError('required')">
+            Service center is required.
+          </small>
+        </div>
+
+        <!-- Service Cost -->
+        <div class="form-group">
+          <label>Service Cost (₹) <span>*</span></label>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder="0"
+            formControlName="serviceCost"
+            [class.is-invalid]="isInvalid('serviceCost')"
+          />
+
+          <small
+            class="error"
+            *ngIf="isInvalid('serviceCost') && maintenanceForm.get('serviceCost')?.hasError('required')">
+            Service cost is required.
+          </small>
+
+          <small
+            class="error"
+            *ngIf="isInvalid('serviceCost') && maintenanceForm.get('serviceCost')?.hasError('min')">
+            Service cost must be greater than 0.
+          </small>
+        </div>
+
+        <!-- Next Service Date -->
+        <div class="form-group">
+          <label>Next Service Date</label>
+
+          <input
+            type="date"
+            class="form-control"
+            formControlName="nextServiceDate"
+          />
+        </div>
+
+      </div>
+
+      <!-- Remarks -->
+      <div class="form-group remarks-box">
+        <label>Remarks</label>
+
+        <textarea
+          class="form-control textarea-control"
+          placeholder="Additional comments"
+          formControlName="remarks">
+        </textarea>
+      </div>
+
+      <!-- Messages -->
+      <div class="alert alert-success" *ngIf="successMessage">
+        ✅ {{ successMessage }}
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn-primary-dark">
+          {{ editing ? 'Update Record' : 'Add Record' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn-outline-dark"
+          *ngIf="editing"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Search / Filter / Sort -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Search & Filter</h3>
+        <p>Find records by service type, service date or service cost</p>
+      </div>
+    </div>
+
+    <div class="filter-grid">
+
+      <!-- Search -->
+      <div class="filter-item">
+        <label>Search by Service Type</label>
+
+        <div class="input-action">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="e.g. Oil Change"
+            [(ngModel)]="searchServiceType"
+          />
+
+          <button type="button" class="btn-primary-dark" (click)="searchByServiceType()">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter -->
+      <div class="filter-item">
+        <label>Filter by Service Date</label>
+
+        <div class="input-action">
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="filterDate"
+          />
+
+          <button type="button" class="btn-primary-dark" (click)="filterByServiceDate()">
+            Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="filter-item">
+        <label>&nbsp;</label>
+
+        <button type="button" class="btn-reset" (click)="resetFilters()">
+          Reset
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sort -->
+    <div class="sort-box">
+      <span>Sort by Cost:</span>
+
+      <button type="button" class="sort-btn" (click)="sortByCost('asc')">
+        ↑ Asc
+      </button>
+
+      <button type="button" class="sort-btn" (click)="sortByCost('desc')">
+        ↓ Desc
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Records Table -->
+  <div class="glass-card">
+
+    <div class="section-header">
+      <div>
+        <h3>Maintenance Records</h3>
+        <p>{{ maintenanceRecords.length }} record(s) available</p>
+      </div>
+
+      <span class="records-count">
+        {{ maintenanceRecords.length }}
+      </span>
+    </div>
+
+    <div class="table-wrapper">
+
+      <table class="maintenance-table">
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Vehicle</th>
+            <th>Service Date</th>
+            <th>Service Type</th>
+            <th>Service Center</th>
+            <th>Cost</th>
+            <th>Next Service</th>
+            <th>Remarks</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let record of maintenanceRecords; let i = index"
+            [class.upcoming-row]="isUpcomingService(record.nextServiceDate)">
+
+            <td>{{ i + 1 }}</td>
+
+            <td class="vehicle-cell">
+              {{ getVehicleDisplay(record.vehicle) }}
+            </td>
+
+            <td>{{ record.serviceDate }}</td>
+            <td>{{ record.serviceType }}</td>
+            <td>{{ record.serviceCenter }}</td>
+
+            <td class="cost-cell">
+              ₹{{ record.serviceCost }}
+            </td>
+
+            <td>
+              {{ record.nextServiceDate || 'N/A' }}
+
+              <span
+                class="upcoming-badge"
+                *ngIf="isUpcomingService(record.nextServiceDate)">
+                Upcoming
+              </span>
+            </td>
+
+            <td>{{ record.remarks || 'N/A' }}</td>
+
+            <td class="action-cell">
+              <button type="button" class="btn-edit" (click)="editMaintenance(record)">
+                Edit
+              </button>
+
+              <button type="button" class="btn-delete" (click)="deleteMaintenance(record.maintenanceId)">
+                Delete
+              </button>
+            </td>
+
+          </tr>
+
+          <tr *ngIf="maintenanceRecords.length === 0">
+            <td colspan="9" class="no-records">
+              No maintenance records found.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

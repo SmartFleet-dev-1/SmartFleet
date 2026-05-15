@@ -18,27 +18,31 @@ export class AuthService {
       loginRequest
     ).pipe(
       tap((response: LoginResponse) => {
-        if (response) {
-          const token = response.token || response.jwtToken;
-
-          if (token) {
-            this.setToken(token);
-          }
-
-          if (response.role) {
-            this.setRole(response.role);
-          }
-
-          if (response.userId !== undefined && response.userId !== null) {
-            this.setUserId(response.userId);
-          }
-
-          if (response.username) {
-            this.setUsername(response.username);
-          }
-        }
+        this.saveLoginData(response);
       })
     );
+  }
+
+  saveLoginData(response: LoginResponse): void {
+    if (response) {
+      const token = response.token || response.jwtToken;
+
+      if (token) {
+        this.setToken(token);
+      }
+
+      if (response.role) {
+        this.setRole(response.role);
+      }
+
+      if (response.userId !== undefined && response.userId !== null) {
+        this.setUserId(response.userId);
+      }
+
+      if (response.username) {
+        this.setUsername(response.username);
+      }
+    }
   }
 
   register(user: User): Observable<User> {
@@ -102,6 +106,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
   }
 
   logout(): void {

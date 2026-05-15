@@ -1,128 +1,1145 @@
-.auth-page {
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap');
+
+:host {
+  --black: #080c14;
+  --blue: #00aaff;
+  --blue-soft: rgba(0, 170, 255, 0.16);
+  --amber: #ffaa00;
+  --green: #22c55e;
+  --white: #ffffff;
+  --muted: #9ca3af;
+  --danger: #ffaa00;
+  --glass: rgba(8, 12, 20, 0.72);
+  --border: rgba(0, 170, 255, 0.34);
+
+  display: block;
   min-height: 100vh;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 20px;
+  font-family: 'DM Sans', sans-serif;
 }
 
-.auth-card {
-  width: 505px;
-  background: #ffffff;
-  border-radius: 0;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
-  padding: 26px 55px 28px;
+* {
+  box-sizing: border-box;
+}
+
+/* Page */
+.register-command-page {
   position: relative;
-  border: 1px solid #e4e4e4;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--black);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 78px 18px 40px;
 }
 
-.top-line {
-  position: absolute;
-  top: -8px;
+/* Top Stats */
+.stats-strip {
+  position: fixed;
+  top: 0;
   left: 0;
-  height: 8px;
+  height: 38px;
   width: 100%;
-  background: #000000;
+  z-index: 30;
+  overflow: hidden;
+  background: rgba(3, 7, 18, 0.94);
+  border-bottom: 1px solid rgba(0, 170, 255, 0.24);
 }
 
-.auth-header {
-  text-align: center;
-  margin-bottom: 30px;
+.marquee {
+  white-space: nowrap;
+  line-height: 38px;
+  font-family: 'Share Tech Mono', monospace;
+  color: #dbeafe;
+  font-size: 13px;
+  animation: marquee 24s linear infinite;
 }
 
-.auth-header h2 {
-  font-size: 28px;
-  font-weight: 800;
-  color: #111820;
-  margin-bottom: 10px;
+/* Background */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 12, 20, 0.34), rgba(8, 12, 20, 0.90)),
+    url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920');
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  animation: kenBurns 22s ease-in-out infinite alternate;
 }
 
-.auth-header p {
-  font-size: 20px;
-  color: #6c757d;
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(0, 170, 255, 0.20), transparent 28%),
+    radial-gradient(circle at 80% 75%, rgba(255, 170, 0, 0.14), transparent 32%),
+    linear-gradient(135deg, rgba(8, 12, 20, 0.38), rgba(8, 12, 20, 0.96));
+}
+
+.noise-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.75) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Hex Grid */
+.hex-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(30deg, rgba(0, 170, 255, 0.28) 12%, transparent 12.5%, transparent 87%, rgba(0, 170, 255, 0.28) 87.5%, rgba(0, 170, 255, 0.28)),
+    linear-gradient(150deg, rgba(0, 170, 255, 0.28) 12%, transparent 12.5%, transparent 87%, rgba(0, 170, 255, 0.28) 87.5%, rgba(0, 170, 255, 0.28));
+  background-size: 90px 155px;
+  animation: pulseGrid 4s ease-in-out infinite;
+}
+
+/* Floating vehicles in full page background */
+.vehicle-bg {
+  position: absolute;
+  z-index: 3;
+  opacity: 0.16;
+  filter: drop-shadow(0 0 18px rgba(0, 170, 255, 0.7));
+  animation: vehicleFloat 18s linear infinite;
+  pointer-events: none;
+}
+
+.vehicle-bg-1 {
+  left: -80px;
+  top: 22%;
+  font-size: 54px;
+  animation-duration: 22s;
+}
+
+.vehicle-bg-2 {
+  right: -100px;
+  top: 34%;
+  font-size: 64px;
+  animation-duration: 26s;
+  animation-delay: 4s;
+}
+
+.vehicle-bg-3 {
+  left: 12%;
+  bottom: 12%;
+  font-size: 46px;
+  animation-duration: 20s;
+  animation-delay: 2s;
+}
+
+.vehicle-bg-4 {
+  right: 18%;
+  bottom: 20%;
+  font-size: 42px;
+  animation-duration: 24s;
+  animation-delay: 6s;
+}
+
+.vehicle-bg-5 {
+  left: 48%;
+  top: 14%;
+  font-size: 50px;
+  animation-duration: 28s;
+  animation-delay: 8s;
+}
+
+/* Data Streams */
+.data-streams {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.data-streams span {
+  position: absolute;
+  bottom: -60px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: rgba(0, 170, 255, 0.55);
+  animation: driftUp 11s linear infinite;
+}
+
+.data-streams span:nth-child(1) {
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.data-streams span:nth-child(2) {
+  left: 24%;
+  animation-delay: 2s;
+}
+
+.data-streams span:nth-child(3) {
+  left: 42%;
+  animation-delay: 4s;
+}
+
+.data-streams span:nth-child(4) {
+  left: 61%;
+  animation-delay: 1s;
+}
+
+.data-streams span:nth-child(5) {
+  left: 76%;
+  animation-delay: 5s;
+}
+
+.data-streams span:nth-child(6) {
+  left: 88%;
+  animation-delay: 7s;
+}
+
+/* Route Lines */
+.world-routes {
+  position: absolute;
+  width: 92%;
+  height: 62%;
+  opacity: 0.48;
+  pointer-events: none;
+}
+
+.world-routes path {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  filter: drop-shadow(0 0 10px rgba(0, 170, 255, 0.9));
+  animation: drawRoute 7s ease infinite;
+}
+
+.world-routes path:nth-child(2) {
+  stroke: var(--amber);
+  animation-delay: 1.5s;
+}
+
+.world-routes circle {
+  fill: var(--blue);
+  filter: drop-shadow(0 0 12px var(--blue));
+  animation: pulseDot 1.6s infinite;
+}
+
+/* Card */
+.register-card {
+  position: relative;
+  z-index: 8;
+  width: min(100%, 690px);
+  padding: 34px;
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, rgba(8, 12, 20, 0.86), rgba(8, 12, 20, 0.66));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 35px 95px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px);
+  overflow: hidden;
+  animation: cardEnter 0.8s ease both;
+}
+
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background:
+    conic-gradient(from 180deg, transparent, rgba(0, 170, 255, 0.45), transparent, rgba(255, 170, 0, 0.25), transparent);
+  filter: blur(22px);
+  opacity: 0.55;
+  z-index: -1;
+  animation: orbit 7s linear infinite;
+}
+
+/* Vehicles inside card background */
+.card-vehicle {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.055;
+  font-size: 120px;
+  pointer-events: none;
+  filter: blur(0.3px) drop-shadow(0 0 20px rgba(0, 170, 255, 0.55));
+}
+
+.card-vehicle-1 {
+  right: 28px;
+  top: 95px;
+  transform: rotate(-12deg);
+}
+
+.card-vehicle-2 {
+  left: 18px;
+  bottom: 120px;
+  transform: rotate(10deg);
+}
+
+.card-vehicle-3 {
+  right: 85px;
+  bottom: 35px;
+  transform: rotate(-5deg);
+}
+
+/* Road lines inside card */
+.card-road-line {
+  position: absolute;
+  height: 2px;
+  width: 280px;
+  z-index: 0;
+  opacity: 0.22;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  pointer-events: none;
+}
+
+.card-road-line-1 {
+  top: 205px;
+  right: -60px;
+  transform: rotate(-8deg);
+}
+
+.card-road-line-2 {
+  bottom: 145px;
+  left: -70px;
+  transform: rotate(9deg);
+}
+
+/* Keep actual content above decorative card layer */
+.brand-header,
+.access-status,
+.form-title,
+.alert,
+form,
+.login-link {
+  position: relative;
+  z-index: 2;
+}
+
+/* Brand */
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.logo-orb {
+  width: 64px;
+  height: 64px;
+  border-radius: 21px;
+  background: linear-gradient(135deg, var(--blue), #2563eb);
+  display: grid;
+  place-items: center;
+  font-size: 33px;
+  box-shadow: 0 0 38px rgba(0, 170, 255, 0.48);
+}
+
+.brand-header h1 {
   margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.brand-header p {
+  margin: 2px 0 0;
+  color: var(--amber);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+}
+
+/* Access Status */
+.access-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(0, 170, 255, 0.13), rgba(255, 170, 0, 0.08));
+  border: 1px solid rgba(0, 170, 255, 0.24);
+  position: relative;
+  overflow: hidden;
+}
+
+.access-status::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 170, 255, 0.12),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: scanAccess 4s linear infinite;
+}
+
+.access-node {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 170, 255, 0.16);
+  border: 1px solid rgba(0, 170, 255, 0.38);
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+}
+
+.access-node span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  color: #001018;
+  font-weight: 950;
+  box-shadow:
+    0 0 0 7px rgba(0, 170, 255, 0.12),
+    0 0 28px rgba(0, 170, 255, 0.8);
+  animation: activePulse 1.5s infinite;
+}
+
+.access-line {
+  width: 72px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), rgba(255, 255, 255, 0.12));
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+}
+
+.access-text {
+  position: relative;
+  z-index: 2;
+}
+
+.access-text strong {
+  display: block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  color: var(--white);
+}
+
+.access-text small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Title */
+.form-title {
+  margin-bottom: 24px;
+}
+
+.form-title h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.form-title p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+
+/* Form */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .form-group {
-  margin-bottom: 22px;
+  animation: fieldEnter 0.65s ease both;
+}
+
+.field-delay-1 {
+  animation-delay: 0.12s;
+}
+
+.field-delay-2 {
+  animation-delay: 0.22s;
+}
+
+.field-delay-3 {
+  animation-delay: 0.32s;
+}
+
+.field-delay-4 {
+  animation-delay: 0.42s;
+}
+
+.field-delay-5 {
+  animation-delay: 0.52s;
+}
+
+.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-group label {
   display: block;
-  font-size: 18px;
-  font-weight: 500;
-  color: #2b3035;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  color: #dbeafe;
+  font-weight: 800;
+  font-size: 14px;
 }
 
-.form-control {
+.input-shell {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: var(--blue);
+  font-size: 15px;
+}
+
+.input-shell input,
+.input-shell select {
   width: 100%;
-  height: 45px;
-  border: 1px solid #dfe4ea;
-  border-radius: 7px;
-  padding: 0 14px;
-  font-size: 18px;
-  color: #222222;
+  height: 54px;
+  border-radius: 17px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(2, 6, 23, 0.58);
+  color: var(--white);
+  padding: 0 44px 0 46px;
   outline: none;
-  box-shadow: none;
-  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.26s ease;
 }
 
-.form-control:focus {
-  border-color: #9cc9ff;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.18);
+.input-shell input::placeholder {
+  color: #64748b;
+}
+
+.input-shell input:focus,
+.input-shell select:focus {
+  border-color: rgba(0, 170, 255, 0.82);
+  box-shadow:
+    0 0 0 4px rgba(0, 170, 255, 0.14),
+    0 0 30px rgba(0, 170, 255, 0.20);
+  background: rgba(2, 6, 23, 0.80);
+}
+
+.input-shell input.is-valid,
+.input-shell select.is-valid {
+  border-color: rgba(34, 197, 94, 0.75);
+}
+
+.input-shell input.is-invalid,
+.input-shell select.is-invalid {
+  border-color: var(--danger);
+  animation: shake 0.28s ease;
+}
+
+.valid-check {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--green);
+  font-weight: 900;
+  animation: checkPop 0.3s ease;
 }
 
 .error {
   display: block;
-  color: #ff4b5c;
-  font-size: 15px;
-  margin-top: 8px;
+  margin-top: 7px;
+  color: #fbbf24;
+  font-size: 12.5px;
+  font-weight: 800;
 }
 
-.btn-submit {
-  width: 100%;
-  height: 46px;
-  background: #202529;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 600;
-  margin-top: 0;
-  cursor: pointer;
+/* Password decorative strength */
+.static-strength {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
 }
 
-.btn-submit:hover {
-  background: #111416;
+.static-strength span {
+  width: 34px;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  box-shadow: 0 0 12px rgba(0, 170, 255, 0.32);
 }
 
-.auth-link {
-  text-align: center;
-  margin-top: 22px;
-  font-size: 18px;
+.static-strength small {
+  color: var(--muted);
+  font-size: 11px;
+  margin-left: 5px;
 }
 
-.auth-link a {
-  color: #202529;
-  font-weight: 700;
-  text-decoration: underline;
+/* Insight */
+.insight-callout {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 20px;
+  display: flex;
+  gap: 13px;
+  background: rgba(255, 170, 0, 0.12);
+  border: 1px solid rgba(255, 170, 0, 0.25);
+  color: #fde68a;
+  animation: fadeUp 0.6s ease both;
 }
 
+.insight-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 170, 0, 0.16);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.insight-callout strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.insight-callout p {
+  margin: 0;
+  color: #fef3c7;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Alerts */
 .alert {
   margin-bottom: 18px;
-  padding: 11px 12px;
-  border-radius: 5px;
-  font-size: 15px;
+  padding: 13px 15px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .alert-success {
-  background: #d1e7dd;
-  color: #0f5132;
+  background: rgba(34, 197, 94, 0.14);
+  color: #bbf7d0;
+  border: 1px solid rgba(34, 197, 94, 0.25);
 }
 
 .alert-danger {
-  background: #f8d7da;
-  color: #842029;
+  background: rgba(239, 68, 68, 0.14);
+  color: #fecaca;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Submit */
+.btn-launch {
+  width: 100%;
+  height: 58px;
+  margin-top: 24px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--blue), #2563eb 55%, var(--amber));
+  color: #001018;
+  font-size: 16px;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow:
+    0 20px 42px rgba(0, 170, 255, 0.25),
+    0 0 35px rgba(255, 170, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.btn-launch::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-18deg);
+  transition: 0.55s ease;
+}
+
+.btn-launch:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 24px 48px rgba(0, 170, 255, 0.33),
+    0 0 42px rgba(255, 170, 0, 0.20);
+}
+
+.btn-launch:hover::before {
+  left: 140%;
+}
+
+.btn-launch span {
+  font-size: 22px;
+}
+
+/* Login Link */
+.login-link {
+  margin-top: 22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.login-link button {
+  border: none;
+  background: transparent;
+  color: var(--blue);
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes kenBurns {
+  from {
+    transform: scale(1.06);
+  }
+
+  to {
+    transform: scale(1.16) translate(-2%, -2%);
+  }
+}
+
+@keyframes pulseGrid {
+  0%, 100% {
+    opacity: 0.12;
+  }
+
+  50% {
+    opacity: 0.27;
+  }
+}
+
+@keyframes driftUp {
+  from {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-115vh);
+  }
+}
+
+@keyframes drawRoute {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+
+  55%, 100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fieldEnter {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes activePulse {
+  50% {
+    box-shadow:
+      0 0 0 14px rgba(0, 170, 255, 0.06),
+      0 0 34px rgba(0, 170, 255, 0.85);
+  }
+}
+
+@keyframes scanAccess {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes vehicleFloat {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateX(60px) translateY(-18px) rotate(3deg);
+  }
+
+  100% {
+    transform: translateX(120px) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes checkPop {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.4);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .register-command-page {
+    padding: 62px 14px 28px;
+  }
+
+  .register-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .brand-header {
+    align-items: flex-start;
+  }
+
+  .brand-header h1 {
+    font-size: 29px;
+  }
+
+  .form-title h2 {
+    font-size: 26px;
+  }
+
+  .access-status {
+    align-items: flex-start;
+  }
+
+  .access-line {
+    display: none;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .insight-callout {
+    flex-direction: column;
+  }
+
+  .card-vehicle {
+    font-size: 86px;
+  }
+}
+/* Launch Car Animation Overlay */
+.launch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(circle at center, rgba(0, 170, 255, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(3, 7, 18, 0.96), rgba(8, 12, 20, 0.98));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: launchFadeIn 0.35s ease both;
+}
+
+.launch-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(0, 170, 255, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 170, 255, 0.22) 1px, transparent 1px);
+  background-size: 70px 70px;
+  animation: launchGridMove 1.8s linear infinite;
+}
+
+.launch-message {
+  position: absolute;
+  top: 23%;
+  text-align: center;
+  z-index: 3;
+  animation: launchTextIn 0.7s ease both;
+}
+
+.launch-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: #001018;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  box-shadow: 0 0 28px rgba(0, 170, 255, 0.55);
+  margin-bottom: 16px;
+}
+
+.launch-message h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 48px;
+  color: var(--white);
+  letter-spacing: 0.8px;
+  text-shadow: 0 0 30px rgba(0, 170, 255, 0.35);
+}
+
+.launch-message p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.road {
+  position: absolute;
+  bottom: 26%;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 4;
+}
+
+.road-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 72px;
+  height: 4px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 170, 255, 0.15),
+      var(--blue),
+      rgba(255, 170, 0, 0.8),
+      transparent
+    );
+  box-shadow:
+    0 0 22px rgba(0, 170, 255, 0.6),
+    0 0 34px rgba(255, 170, 0, 0.35);
+}
+
+.launch-car {
+  position: absolute;
+  left: -120px;
+  top: 12px;
+  font-size: 72px;
+  filter:
+    drop-shadow(0 0 20px rgba(0, 170, 255, 0.75))
+    drop-shadow(0 0 36px rgba(255, 170, 0, 0.45));
+  animation: carDrive 1.85s cubic-bezier(0.17, 0.84, 0.44, 1) forwards;
+}
+
+.launch-car::after {
+  content: '';
+  position: absolute;
+  width: 130px;
+  height: 12px;
+  left: -115px;
+  top: 42px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.8));
+  filter: blur(4px);
+}
+
+.speed-line {
+  position: absolute;
+  height: 3px;
+  width: 190px;
+  left: -230px;
+  background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.75), transparent);
+  border-radius: 999px;
+  animation: speedLineMove 1.4s linear infinite;
+}
+
+.speed-line-1 {
+  top: 28px;
+  animation-delay: 0s;
+}
+
+.speed-line-2 {
+  top: 57px;
+  animation-delay: 0.25s;
+}
+
+.speed-line-3 {
+  top: 90px;
+  animation-delay: 0.45s;
+}
+
+/* Launch Animations */
+@keyframes launchFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes launchGridMove {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 70px 70px;
+  }
+}
+
+@keyframes launchTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes carDrive {
+  0% {
+    left: -140px;
+    transform: translateY(0) scale(0.95);
+  }
+
+  25% {
+    transform: translateY(-8px) scale(1.05);
+  }
+
+  55% {
+    transform: translateY(2px) scale(1.15);
+  }
+
+  100% {
+    left: calc(100% + 160px);
+    transform: translateY(-4px) scale(1.25);
+  }
+}
+
+@keyframes speedLineMove {
+  from {
+    left: -260px;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  to {
+    left: 110%;
+    opacity: 0;
+  }
 }

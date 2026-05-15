@@ -1,65 +1,34 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-  <a class="navbar-brand fw-bold" routerLink="/dashboard">
-    🚛 SmartFleet Pro
-  </a>
-
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-bs-toggle="collapse"
-    data-bs-target="#navbarNav">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarNav">
-
-    <ul class="navbar-nav me-auto" *ngIf="authService.isLoggedIn()">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/vehicles">Vehicles</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/drivers">Drivers</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/maintenance">Maintenance</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/insurance">Insurance</a>
-      </li>
-    </ul>
-
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-        <a class="nav-link" routerLink="/login">Login</a>
-      </li>
-
-      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-        <a class="nav-link" routerLink="/register">Register</a>
-      </li>
-
-      <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <span class="navbar-text text-light me-3">
-          {{ authService.getUsername() }}
-        </span>
-      </li>
-
-      <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <button class="btn btn-outline-light btn-sm" (click)="logout()">
-          Logout
-        </button>
-      </li>
-    </ul>
-
+<!-- Show premium app shell only after login --><ng-container *ngIf="authService.isLoggedIn(); else publicLayout">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-box">
+        <div class="brand-icon">🚚</div>
+        <div>
+          <h2>SmartFleet Pro</h2>
+          <p>Command Every Mile</p>
+        </div>
+      </div>
+      <nav class="nav-menu"> <a routerLink="/dashboard" routerLinkActive="active"> <span>📊</span> Dashboard </a> <a
+          routerLink="/vehicles" routerLinkActive="active"> <span>🚚</span> Vehicles </a> <a routerLink="/drivers"
+          routerLinkActive="active"> <span>👤</span> Drivers </a> <a routerLink="/maintenance"
+          routerLinkActive="active"> <span>⚙️</span> Maintenance </a> <a routerLink="/insurance"
+          routerLinkActive="active"> <span>🛡️</span> Insurance </a> </nav>
+      <div class="sidebar-footer">
+        <div class="system-status"> <span class="live-dot"></span> Live Tracking ON </div> <button type="button"
+          class="logout-btn" (click)="logout()"> Logout </button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1>{{ title }}</h1>
+          <p>Enterprise Fleet Command Center</p>
+        </div>
+        <div class="topbar-metrics"> <span><i></i> 2,847 active</span> <span>99.98% uptime</span> <span>JWT
+            secured</span> </div>
+      </header>
+      <section class="page-content"> <router-outlet></router-outlet> </section>
+    </main>
   </div>
-</nav>
-
-<div class="container-fluid mt-4">
-  <router-outlet></router-outlet>
-</div>
+</ng-container><!-- Public layout for login/register --><ng-template #publicLayout>
+  <router-outlet></router-outlet></ng-template>
