@@ -1,1 +1,59 @@
+<div class="auth-page">
 
+  <div class="auth-card">
+
+    <div class="top-line"></div>
+
+    <div class="auth-header">
+      <h2>🚚 SMARTFLEET PRO</h2>
+      <p>Admin Login</p>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+      <div class="form-group">
+        <label>Username</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter username"
+          formControlName="username">
+
+        <small class="error"
+          *ngIf="submitted && loginForm.get('username')?.hasError('required')">
+          Please enter username.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          class="form-control"
+          placeholder="********"
+          formControlName="password">
+
+        <small class="error"
+          *ngIf="submitted && loginForm.get('password')?.hasError('required')">
+          Please enter password.
+        </small>
+      </div>
+
+      <button type="submit" class="btn-submit">
+        Login
+      </button>
+
+    </form>
+
+    <div class="auth-link">
+      Don't have an account?
+      <a routerLink="/register">Register</a>
+    </div>
+
+  </div>
+
+</div>

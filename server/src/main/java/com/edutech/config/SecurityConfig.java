@@ -43,11 +43,21 @@ protected void configure(
     auth.userDetailsService(
         username -> {
             User user = userService.findByUsername(username);
-            return new org.springframework.security.core.userdetails
-                .User(user.getUsername(), user.getPassword(),
-                Collections.singletonList(
-                new SimpleGrantedAuthority(
-                user.getRole().name())));
+            
+if (user == null) {
+    throw new org.springframework.security.core.userdetails.UsernameNotFoundException(
+        "User not found: " + username
+    );
+}
+
+return new org.springframework.security.core.userdetails.User(
+    user.getUsername(),
+    user.getPassword(),
+    Collections.singletonList(
+        new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
+    )
+);
+
         })
         .passwordEncoder(passwordEncoder);
 }
@@ -61,6 +71,8 @@ protected void configure(
             .antMatchers("/api/drivers/**").hasRole("ADMIN")
             .antMatchers("/api/maintenance/**").hasRole("ADMIN")
             .antMatchers("/api/insurance/**").hasRole("ADMIN")
+            //  .antMatchers("/api/vehicles/**").permitAll()
+            // .antMatchers("/api/insurance/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()

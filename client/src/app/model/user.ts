@@ -3,5 +3,10 @@ export enum Role {
 }
 
 export interface User {
-     //Add the required code here!
+  id?: number;
+  username: string;
+  password?: string;
+  email: string;
+  contactNumber?: number;
+  role: string;
 }

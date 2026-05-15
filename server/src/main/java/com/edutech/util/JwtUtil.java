@@ -4,19 +4,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.edutech.entity.User;
-import com.edutech.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-   private String SECRET_KEY = "smartfleet_secret_key_123456789012345";
+    private final SecretKey SECRET_KEY =
+        Keys.hmacShaKeyFor(
+            "smartfleet_secret_key_123456789012345".getBytes(java.nio.charset.StandardCharsets.UTF_8)
+        );
 
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
@@ -27,8 +31,9 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -47,14 +52,15 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(
+                    System.currentTimeMillis() + 1000L * 60 * 60 * 24))
+                .signWith(SECRET_KEY)
                 .compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) 
+        return (username.equals(userDetails.getUsername())
                 && !isTokenExpired(token));
     }
 }

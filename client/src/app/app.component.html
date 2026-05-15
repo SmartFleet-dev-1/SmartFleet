@@ -1,1 +1,65 @@
-<!-- Add the required code here! -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <a class="navbar-brand fw-bold" routerLink="/dashboard">
+    🚛 SmartFleet Pro
+  </a>
+
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+
+    <ul class="navbar-nav me-auto" *ngIf="authService.isLoggedIn()">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/vehicles">Vehicles</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/drivers">Drivers</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/maintenance">Maintenance</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/insurance">Insurance</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a class="nav-link" routerLink="/login">Login</a>
+      </li>
+
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a class="nav-link" routerLink="/register">Register</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <span class="navbar-text text-light me-3">
+          {{ authService.getUsername() }}
+        </span>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">
+          Logout
+        </button>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<div class="container-fluid mt-4">
+  <router-outlet></router-outlet>
+</div>

@@ -1,3 +1,7 @@
 export interface LoginResponse {
-     //Add the required code here!
+  token?: string;
+  jwtToken?: string;
+  role?: string;
+  userId?: number;
+  username?: string;
 }

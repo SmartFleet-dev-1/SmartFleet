@@ -8,6 +8,9 @@ import { HttpService } from '../../../services/http.service';
   styleUrls: ['./insurance.component.scss']
 })
 export class InsuranceComponent implements OnInit {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
      //Add the required code here!
 }

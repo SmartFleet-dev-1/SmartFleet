@@ -8,6 +8,9 @@ import { HttpService } from '../../../services/http.service';
   styleUrls: ['./maintenance.component.scss']
 })
 export class MaintenanceComponent implements OnInit {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
      //Add the required code here!
 }

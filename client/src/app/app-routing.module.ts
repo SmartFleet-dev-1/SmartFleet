@@ -10,7 +10,14 @@ import { InsuranceComponent } from './component/insurance/insurance.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-     //Add the required code here!
+  {path:'',redirectTo:'/dashboard',pathMatch:'full'},
+  {path:'login',component:LoginComponent},
+  {path:'register',component:RegisterComponent},
+  {path:'dashboard',component:DashboardComponent},
+  {path:'vehicles',component:VehicleComponent},
+  {path:'drivers',component:DriverComponent},
+  {path:'maintenance',component:MaintenanceComponent},
+  {path:'insurance',component:InsuranceComponent}
 ];
 
 @NgModule({

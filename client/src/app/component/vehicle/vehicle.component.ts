@@ -8,6 +8,9 @@ import { HttpService } from '../../../services/http.service';
   styleUrls: ['./vehicle.component.scss']
 })
 export class VehicleComponent implements OnInit {
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
      //Add the required code here!
 }

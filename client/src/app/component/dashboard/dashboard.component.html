@@ -1,1 +1,143 @@
-<!-- Add the required code here! -->
+<div class="dashboard-container">
+
+  <div class="dashboard-header">
+    <div>
+      <h2>🚚 SmartFleet Pro Dashboard</h2>
+      <p>Fleet summary, maintenance alerts, and insurance expiry overview</p>
+    </div>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+
+    <div class="summary-card card-blue">
+      <div class="card-icon">🚚</div>
+      <div>
+        <h3>{{ totalVehicles }}</h3>
+        <p>Total Vehicles</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-green">
+      <div class="card-icon">✅</div>
+      <div>
+        <h3>{{ activeVehicles }}</h3>
+        <p>Active Vehicles</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-orange">
+      <div class="card-icon">🛠️</div>
+      <div>
+        <h3>{{ underServiceVehicles }}</h3>
+        <p>Under Service</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-gray">
+      <div class="card-icon">⛔</div>
+      <div>
+        <h3>{{ inactiveVehicles }}</h3>
+        <p>Inactive Vehicles</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-purple">
+      <div class="card-icon">👨‍✈️</div>
+      <div>
+        <h3>{{ totalDrivers }}</h3>
+        <p>Total Drivers</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-teal">
+      <div class="card-icon">🟢</div>
+      <div>
+        <h3>{{ availableDrivers }}</h3>
+        <p>Available Drivers</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-dark">
+      <div class="card-icon">📌</div>
+      <div>
+        <h3>{{ assignedDrivers }}</h3>
+        <p>Assigned Drivers</p>
+      </div>
+    </div>
+
+    <div class="summary-card card-red">
+      <div class="card-icon">📄</div>
+      <div>
+        <h3>{{ totalInsuranceRecords }}</h3>
+        <p>Insurance Records</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Alert Section -->
+  <div class="alert-section">
+
+    <div class="info-card maintenance-alert">
+      <div class="info-card-header">
+        <h4>🛠️ Upcoming Services</h4>
+        <span class="badge badge-warning">{{ upcomingServices }}</span>
+      </div>
+
+      <p>
+        Maintenance records with next service date within the next 30 days.
+      </p>
+
+      <a routerLink="/maintenance" class="card-link">
+        View Maintenance
+      </a>
+    </div>
+
+    <div class="info-card insurance-alert">
+      <div class="info-card-header">
+        <h4>📢 Insurance Expiry Alerts</h4>
+        <span class="badge badge-danger">{{ insuranceExpiryAlerts }}</span>
+      </div>
+
+      <p>
+        Insurance policies expiring within the next 30 days.
+      </p>
+
+      <a routerLink="/insurance" class="card-link">
+        View Insurance
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Quick Navigation -->
+  <div class="quick-actions">
+
+    <h3>Quick Actions</h3>
+
+    <div class="action-buttons">
+      <a routerLink="/vehicles" class="action-btn vehicle-btn">
+        🚚 Manage Vehicles
+      </a>
+
+      <a routerLink="/drivers" class="action-btn driver-btn">
+        👨‍✈️ Manage Drivers
+      </a>
+
+      <a routerLink="/maintenance" class="action-btn maintenance-btn">
+        🛠️ Manage Maintenance
+      </a>
+
+      <a routerLink="/insurance" class="action-btn insurance-btn">
+        📄 Manage Insurance
+      </a>
+    </div>
+
+  </div>
+
+</div>
