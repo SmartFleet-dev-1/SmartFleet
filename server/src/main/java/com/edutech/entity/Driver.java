@@ -2,122 +2,148 @@ package com.edutech.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Entity
 public class Driver {
 
-     // Add the required code here!
-     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long driverId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long driverId;
 
-     @NotBlank
-     private String driverName;
+    @NotBlank
+    private String driverName;
 
-     @NotBlank
-     @Column(unique = true)
-     private String licenseNumber;
+    @NotBlank
+    @Column(unique = true)
+    private String licenseNumber;
 
-     @NotBlank
-     @Pattern(regexp = "\\d{10}")
-     private String phoneNumber;
+    @NotBlank
+    @Pattern(regexp = "\\d{10}")
+    private String phoneNumber;
 
-     @Min(0)
-     private int experienceYears;
+    @Min(0)
+    private int experienceYears;
 
-     @NotBlank
-     private String address;
+    @NotBlank
+    private String address;
 
-     @NotBlank
-     private String availabilityStatus;
+    @NotBlank
+    private String availabilityStatus;
 
-     public Driver() {
-     }
+    // NEW — for document expiry alerts
+    private LocalDate licenseExpiryDate;
 
-     public Driver(Long driverId, @NotBlank String driverName, @NotBlank String licenseNumber,
-               @NotBlank @Pattern(regexp = "\\d{10}") String phoneNumber, @Min(0) int experienceYears,
-               @NotBlank String address, @NotBlank String availabilityStatus) {
-          this.driverId = driverId;
-          this.driverName = driverName;
-          this.licenseNumber = licenseNumber;
-          this.phoneNumber = phoneNumber;
-          this.experienceYears = experienceYears;
-          this.address = address;
-          this.availabilityStatus = availabilityStatus;
-     }
+    // NEW — link driver to their user account
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-     public Driver(@NotBlank String driverName, @NotBlank String licenseNumber,
-               @NotBlank @Pattern(regexp = "\\d{10}") String phoneNumber, @Min(0) int experienceYears,
-               @NotBlank String address, @NotBlank String availabilityStatus) {
-          this.driverName = driverName;
-          this.licenseNumber = licenseNumber;
-          this.phoneNumber = phoneNumber;
-          this.experienceYears = experienceYears;
-          this.address = address;
-          this.availabilityStatus = availabilityStatus;
-     }
+    public Driver() {
+    }
 
-     public Long getDriverId() {
-          return driverId;
-     }
+    public Driver(Long driverId, String driverName, String licenseNumber,
+                  String phoneNumber, int experienceYears, String address,
+                  String availabilityStatus, LocalDate licenseExpiryDate, User user) {
+        this.driverId = driverId;
+        this.driverName = driverName;
+        this.licenseNumber = licenseNumber;
+        this.phoneNumber = phoneNumber;
+        this.experienceYears = experienceYears;
+        this.address = address;
+        this.availabilityStatus = availabilityStatus;
+        this.licenseExpiryDate = licenseExpiryDate;
+        this.user = user;
+    }
 
-     public void setDriverId(Long driverId) {
-          this.driverId = driverId;
-     }
+    public Driver(String driverName, String licenseNumber, String phoneNumber,
+                  int experienceYears, String address, String availabilityStatus) {
+        this.driverName = driverName;
+        this.licenseNumber = licenseNumber;
+        this.phoneNumber = phoneNumber;
+        this.experienceYears = experienceYears;
+        this.address = address;
+        this.availabilityStatus = availabilityStatus;
+    }
 
-     public String getDriverName() {
-          return driverName;
-     }
+    public Long getDriverId() {
+        return driverId;
+    }
 
-     public void setDriverName(String driverName) {
-          this.driverName = driverName;
-     }
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
+    }
 
-     public String getLicenseNumber() {
-          return licenseNumber;
-     }
+    public String getDriverName() {
+        return driverName;
+    }
 
-     public void setLicenseNumber(String licenseNumber) {
-          this.licenseNumber = licenseNumber;
-     }
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
 
-     public String getPhoneNumber() {
-          return phoneNumber;
-     }
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
 
-     public void setPhoneNumber(String phoneNumber) {
-          this.phoneNumber = phoneNumber;
-     }
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
 
-     public int getExperienceYears() {
-          return experienceYears;
-     }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-     public void setExperienceYears(int experienceYears) {
-          this.experienceYears = experienceYears;
-     }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-     public String getAddress() {
-          return address;
-     }
+    public int getExperienceYears() {
+        return experienceYears;
+    }
 
-     public void setAddress(String address) {
-          this.address = address;
-     }
+    public void setExperienceYears(int experienceYears) {
+        this.experienceYears = experienceYears;
+    }
 
-     public String getAvailabilityStatus() {
-          return availabilityStatus;
-     }
+    public String getAddress() {
+        return address;
+    }
 
-     public void setAvailabilityStatus(String availabilityStatus) {
-          this.availabilityStatus = availabilityStatus;
-     }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-     @Override
-     public String toString() {
-          return "Driver [driverId=" + driverId + ", driverName=" + driverName + ", licenseNumber=" + licenseNumber
-                    + ", phoneNumber=" + phoneNumber + ", experienceYears=" + experienceYears + ", address=" + address
-                    + ", availabilityStatus=" + availabilityStatus + "]";
-     }
+    public String getAvailabilityStatus() {
+        return availabilityStatus;
+    }
 
+    public void setAvailabilityStatus(String availabilityStatus) {
+        this.availabilityStatus = availabilityStatus;
+    }
+
+    public LocalDate getLicenseExpiryDate() {
+        return licenseExpiryDate;
+    }
+
+    public void setLicenseExpiryDate(LocalDate licenseExpiryDate) {
+        this.licenseExpiryDate = licenseExpiryDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Driver [driverId=" + driverId + ", driverName=" + driverName
+                + ", licenseNumber=" + licenseNumber + ", phoneNumber=" + phoneNumber
+                + ", experienceYears=" + experienceYears + ", address=" + address
+                + ", availabilityStatus=" + availabilityStatus
+                + ", licenseExpiryDate=" + licenseExpiryDate + "]";
+    }
 }

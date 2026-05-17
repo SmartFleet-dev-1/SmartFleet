@@ -1,253 +1,121 @@
+<div class="login-page">
 
-<div class="login-command-page">
+  <!-- Left brand panel -->
+  <section class="brand-panel">
+    <div class="brand-content">
+      <div class="brand-logo">🚚</div>
+      <h1>Move IQ</h1>
+      <p>Smart Fleet Management</p>
 
-  <!-- Cinematic left visual side -->
-  <section class="visual-panel">
-
-    <div class="bg-layer bg-one"></div>
-    <div class="bg-layer bg-two"></div>
-    <div class="bg-layer bg-three"></div>
-
-    <div class="dark-gradient"></div>
-    <div class="noise-layer"></div>
-    <div class="grid-layer"></div>
-    <div class="particle-layer"></div>
-
-    <!-- Fake live metrics -->
-    <div class="live-status-bar">
-      <span class="live-dot"></span>
-      <span>2,847 vehicles active</span>
-      <span>99.98% uptime</span>
-      <span>Live tracking ON</span>
-    </div>
-
-    <!-- Animated map route overlay -->
-    <svg class="route-map" viewBox="0 0 900 600" preserveAspectRatio="none">
-      <defs>
-        <filter id="routeGlow">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      <path
-        class="route-line route-line-main"
-        d="M70,460 C180,380 200,300 330,330 C470,370 480,160 620,190 C735,215 765,130 850,95"
-      />
-
-      <path
-        class="route-line route-line-secondary"
-        d="M120,120 C230,190 300,150 380,210 C470,285 560,260 630,330 C700,400 760,385 830,455"
-      />
-
-      <circle class="map-dot dot-one" cx="70" cy="460" r="8"></circle>
-      <circle class="map-dot dot-two" cx="330" cy="330" r="8"></circle>
-      <circle class="map-dot dot-three" cx="620" cy="190" r="8"></circle>
-      <circle class="map-dot dot-four" cx="850" cy="95" r="8"></circle>
-
-      <circle class="ping ping-one" cx="330" cy="330" r="14"></circle>
-      <circle class="ping ping-two" cx="620" cy="190" r="14"></circle>
-      <circle class="ping ping-three" cx="850" cy="95" r="14"></circle>
-    </svg>
-
-    <!-- Left content -->
-    <div class="visual-content">
-      <div class="eyebrow">
-        Enterprise Fleet Intelligence
-      </div>
-
-      <h1>Command Every Mile</h1>
-
-      <p>
-        Real-time vehicle visibility, operational precision, maintenance control,
-        and logistics intelligence built for high-performance fleet teams.
-      </p>
-
-      <div class="control-metrics">
-        <div>
-          <strong>48ms</strong>
-          <span>avg signal latency</span>
+      <div class="brand-features">
+        <div class="feature">
+          <span>📊</span>
+          <small>Real-time Tracking</small>
         </div>
-
-        <div>
-          <strong>24/7</strong>
-          <span>fleet visibility</span>
+        <div class="feature">
+          <span>🔧</span>
+          <small>Maintenance Control</small>
         </div>
-
-        <div>
-          <strong>99.98%</strong>
-          <span>platform uptime</span>
+        <div class="feature">
+          <span>🛡️</span>
+          <small>Insurance Management</small>
         </div>
       </div>
     </div>
-
   </section>
 
-  <!-- Right login card side -->
-  <section class="login-panel">
-
+  <!-- Right login form -->
+  <section class="form-panel">
     <div class="login-card">
 
-      <div class="card-glow"></div>
-
-      <!-- Clock / command status -->
-      <div class="card-topbar">
-        <div class="system-chip">
-          <span class="green-pulse"></span>
-          Secure Gateway
-        </div>
-
-        <div class="clock-box">
-          <span>LIVE OPS</span>
-          <strong>IST</strong>
-        </div>
-      </div>
-
-      <!-- Logo -->
-      <div class="brand-area">
-        <div class="logo-mark">
-          🚚
-        </div>
-
-        <div>
-          <h2>SmartFleet Pro</h2>
-          <p>Command Every Mile</p>
-        </div>
-      </div>
-
-      <div class="login-heading">
-        <h3>Access Control Center</h3>
-        <p>Authenticate to enter your fleet command dashboard.</p>
+      <div class="card-header">
+        <h2>Welcome back</h2>
+        <p>Enter your credentials to access your dashboard</p>
       </div>
 
       <!-- Error -->
       <div class="alert-error" *ngIf="errorMessage">
-        {{ errorMessage }}
+        ⚠️ {{ errorMessage }}
       </div>
 
-      <!-- Login Form -->
+      <!-- Form -->
       <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
 
-        <!-- Email/Username -->
-        <div class="form-group field-animate field-delay-1">
-          <label>Email / Username</label>
-
-          <div class="input-shell">
+        <!-- Username -->
+        <div class="form-group">
+          <label>Username</label>
+          <div class="input-wrapper">
             <span class="input-icon">✉</span>
-
             <input
               type="text"
-              placeholder="fleet.manager@company.com"
+              placeholder="Enter your username"
               formControlName="username"
               [class.is-invalid]="
                 loginForm.get('username')?.invalid &&
-                (
-                  loginForm.get('username')?.dirty ||
-                  loginForm.get('username')?.touched ||
-                  submitted
-                )
+                (loginForm.get('username')?.dirty ||
+                 loginForm.get('username')?.touched ||
+                 submitted)
               "
             />
           </div>
-
-          <small
-            class="error"
-            *ngIf="
-              loginForm.get('username')?.hasError('required') &&
-              (
-                loginForm.get('username')?.dirty ||
-                loginForm.get('username')?.touched ||
-                submitted
-              )
-            ">
-            Email or username is required.
+          <small class="error"
+            *ngIf="loginForm.get('username')?.hasError('required') &&
+              (loginForm.get('username')?.dirty ||
+               loginForm.get('username')?.touched ||
+               submitted)">
+            Username is required.
           </small>
         </div>
 
         <!-- Password -->
-        <div class="form-group field-animate field-delay-2">
+        <div class="form-group">
           <label>Password</label>
-
-          <div class="input-shell">
+          <div class="input-wrapper">
             <span class="input-icon">🔒</span>
-
             <input
               type="password"
-              placeholder="Enter secure password"
+              placeholder="Enter your password"
               formControlName="password"
               [class.is-invalid]="
                 loginForm.get('password')?.invalid &&
-                (
-                  loginForm.get('password')?.dirty ||
-                  loginForm.get('password')?.touched ||
-                  submitted
-                )
+                (loginForm.get('password')?.dirty ||
+                 loginForm.get('password')?.touched ||
+                 submitted)
               "
             />
           </div>
-
-          <small
-            class="error"
-            *ngIf="
-              loginForm.get('password')?.hasError('required') &&
-              (
-                loginForm.get('password')?.dirty ||
-                loginForm.get('password')?.touched ||
-                submitted
-              )
-            ">
+          <small class="error"
+            *ngIf="loginForm.get('password')?.hasError('required') &&
+              (loginForm.get('password')?.dirty ||
+               loginForm.get('password')?.touched ||
+               submitted)">
             Password is required.
           </small>
         </div>
 
         <!-- Options -->
-        <div class="login-options field-animate field-delay-3">
-          <label class="remember-toggle">
+        <div class="login-options">
+          <label class="remember-me">
             <input type="checkbox" />
-            <span class="switch"></span>
-            <span>Remember this device</span>
+            <span>Remember me</span>
           </label>
-
           <a href="javascript:void(0)">Forgot password?</a>
         </div>
 
-        <!-- CTA -->
-        <button type="submit" class="access-btn field-animate field-delay-4">
-          Access Dashboard
-          <span>→</span>
+        <!-- Button -->
+        <button type="submit" class="btn-login">
+          Login
         </button>
 
       </form>
 
-      <!-- Links -->
-      <div class="request-row field-animate field-delay-5">
-        <span>Need enterprise access?</span>
-        <a routerLink="/register">Request Access</a>
-      </div>
-
-      <!-- Divider -->
-      <div class="divider field-animate field-delay-6">
-        <span>or continue with SSO</span>
-      </div>
-
-      <!-- SSO -->
-      <div class="sso-grid field-animate field-delay-7">
-        <button type="button">
-          <span>G</span>
-          Google
-        </button>
-
-        <button type="button">
-          <span>▦</span>
-          Microsoft
-        </button>
+      <!-- Register link -->
+      <div class="register-link">
+        <span>Don't have an account?</span>
+        <a routerLink="/register">Register</a>
       </div>
 
     </div>
-
   </section>
 
 </div>

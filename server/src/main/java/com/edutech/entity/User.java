@@ -5,110 +5,158 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
 @Table(name = "users")
 public class User {
 
-     // Add the required code here!
-     @Id
-     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-     @NotBlank
-     @Column(unique = true)
-     private String username;
+    @NotBlank
+    private String name;
 
-     @NotBlank
-     private String password;
+    @NotBlank
+    @Column(unique = true)
+    private String username;
 
-     @NotBlank
-     @Email
-     @Column(unique = true)
-     private String email;
+    @NotBlank
+    private String password;
 
-     private Long contactNumber; // optional
+    @NotBlank
+    @Email
+    @Column(unique = true)
+    private String email;
 
-     @NotNull
-     @Enumerated(EnumType.STRING)
-     private Role role;
+    private Long contactNumber;
 
-     public User() {
-     }
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-     public User(Long id, @NotBlank String username, @NotBlank String password, @NotBlank @Email String email,
-               Long contactNumber, @NotNull Role role) {
-          this.id = id;
-          this.username = username;
-          this.password = password;
-          this.email = email;
-          this.contactNumber = contactNumber;
-          this.role = role;
-     }
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
-     public User(@NotBlank String username, @NotBlank String password, @NotBlank @Email String email,
-               Long contactNumber,
-               @NotNull Role role) {
-          this.username = username;
-          this.password = password;
-          this.email = email;
-          this.contactNumber = contactNumber;
-          this.role = role;
-     }
+    // Driver-specific fields (only used when role = DRIVER)
+    private String licenseNumber;
+    private Integer experienceYears;
+    private String address;
+    private String licenseExpiryDate;
 
-     public Long getId() {
-          return id;
-     }
+    public User() {
+    }
 
-     public void setId(Long id) {
-          this.id = id;
-     }
+    public User(Long id, String name, String username, String password,
+                String email, Long contactNumber, Role role, UserStatus status) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.contactNumber = contactNumber;
+        this.role = role;
+        this.status = status;
+    }
 
-     public String getUsername() {
-          return username;
-     }
+    public Long getId() {
+        return id;
+    }
 
-     public void setUsername(String username) {
-          this.username = username;
-     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-     public String getPassword() {
-          return password;
-     }
+    public String getName() {
+        return name;
+    }
 
-     public void setPassword(String password) {
-          this.password = password;
-     }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-     public String getEmail() {
-          return email;
-     }
+    public String getUsername() {
+        return username;
+    }
 
-     public void setEmail(String email) {
-          this.email = email;
-     }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-     public Long getContactNumber() {
-          return contactNumber;
-     }
+    public String getPassword() {
+        return password;
+    }
 
-     public void setContactNumber(Long contactNumber) {
-          this.contactNumber = contactNumber;
-     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-     public Role getRole() {
-          return role;
-     }
+    public String getEmail() {
+        return email;
+    }
 
-     public void setRole(Role role) {
-          this.role = role;
-     }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-     @Override
-     public String toString() {
-          return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-                    + ", contactNumber=" + contactNumber + ", role=" + role + "]";
-     }
+    public Long getContactNumber() {
+        return contactNumber;
+    }
 
+    public void setContactNumber(Long contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
+    public Integer getExperienceYears() {
+        return experienceYears;
+    }
+
+    public void setExperienceYears(Integer experienceYears) {
+        this.experienceYears = experienceYears;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLicenseExpiryDate() {
+        return licenseExpiryDate;
+    }
+
+    public void setLicenseExpiryDate(String licenseExpiryDate) {
+        this.licenseExpiryDate = licenseExpiryDate;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", name=" + name + ", username=" + username
+                + ", email=" + email + ", role=" + role + ", status=" + status + "]";
+    }
 }

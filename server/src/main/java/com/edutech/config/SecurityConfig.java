@@ -36,44 +36,67 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-  
-@Override
-protected void configure(
-        AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(
-        username -> {
-            User user = userService.findByUsername(username);
-            
-if (user == null) {
-    throw new org.springframework.security.core.userdetails.UsernameNotFoundException(
-        "User not found: " + username
-    );
-}
+    // ✅ UNTOUCHED
+    @Override
+    protected void configure(
+            AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(
+            username -> {
+                User user = userService.findByUsername(username);
 
-return new org.springframework.security.core.userdetails.User(
-    user.getUsername(),
-    user.getPassword(),
-    Collections.singletonList(
-        new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
-    )
-);
+                if (user == null) {
+                    throw new org.springframework.security.core.userdetails.UsernameNotFoundException(
+                        "User not found: " + username
+                    );
+                }
 
-        })
-        .passwordEncoder(passwordEncoder);
-}
+                return new org.springframework.security.core.userdetails.User(
+                    user.getUsername(),
+                    user.getPassword(),
+                    Collections.singletonList(
+                        new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
+                    )
+                );
+            })
+            .passwordEncoder(passwordEncoder);
+    }
 
+    // ✅ MODIFIED — added new URL rules
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
+
+            // PUBLIC
             .antMatchers("/api/auth/register", "/api/auth/login").permitAll()
+
+            // EXISTING — ADMIN only (untouched)
             .antMatchers("/api/vehicles/**").hasRole("ADMIN")
             .antMatchers("/api/drivers/**").hasRole("ADMIN")
             .antMatchers("/api/maintenance/**").hasRole("ADMIN")
             .antMatchers("/api/insurance/**").hasRole("ADMIN")
-            //  .antMatchers("/api/vehicles/**").permitAll()
-            // .antMatchers("/api/insurance/**").permitAll()
+
+            // NEW — ADMIN only
+            .antMatchers("/api/admin/**").hasRole("ADMIN")
+            .antMatchers("/api/dashboard/admin").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/api/trips").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/api/trips/**").hasRole("ADMIN")
+            .antMatchers("/api/trips/driver/**").hasRole("ADMIN")
+            .antMatchers("/api/trips/filter/**").hasRole("ADMIN")
+
+            // NEW — DRIVER only
+            .antMatchers("/api/dashboard/driver").hasRole("DRIVER")
+            .antMatchers("/api/trips/my-trips").hasRole("DRIVER")
+
+            // NEW — BOTH roles
+            .antMatchers("/api/trips/**").authenticated()
+            .antMatchers("/api/notifications/**").authenticated()
+            .antMatchers("/api/profile/**").authenticated()
+            .antMatchers("/api/auth/user").authenticated()
+
+            // EVERYTHING ELSE
             .anyRequest().authenticated()
+
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -82,6 +105,7 @@ return new org.springframework.security.core.userdetails.User(
             UsernamePasswordAuthenticationFilter.class);
     }
 
+    // ✅ UNTOUCHED
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

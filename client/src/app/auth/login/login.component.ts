@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../model/loginrequest';
-
-
 
 @Component({
   selector: 'app-login',
@@ -13,9 +10,8 @@ import { LoginRequest } from '../../model/loginrequest';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  
 
- loginForm: FormGroup;
+  loginForm: FormGroup;
   submitted = false;
   errorMessage = '';
 
@@ -50,6 +46,4 @@ export class LoginComponent {
       }
     });
   }
-
-
 }

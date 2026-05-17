@@ -42,6 +42,10 @@ export class AuthService {
       if (response.username) {
         this.setUsername(response.username);
       }
+
+      if (response.name) {
+        this.setName(response.name);
+      }
     }
   }
 
@@ -104,6 +108,14 @@ export class AuthService {
     return localStorage.getItem('username');
   }
 
+  setName(name: string): void {
+    localStorage.setItem('name', name);
+  }
+
+  getName(): string | null {
+    return localStorage.getItem('name');
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
@@ -117,6 +129,7 @@ export class AuthService {
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
+    localStorage.removeItem('name');
   }
 
   clearStorage(): void {

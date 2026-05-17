@@ -14,8 +14,6 @@ export class RegisterComponent {
   submitted: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
-
-  // Added for launch car animation overlay
   launching: boolean = false;
 
   constructor(
@@ -24,6 +22,7 @@ export class RegisterComponent {
     private authService: AuthService
   ) {
     this.registerForm = this.fb.group({
+      name: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -43,7 +42,7 @@ export class RegisterComponent {
 
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
-        this.successMessage = 'Access granted. Redirecting to login...';
+        this.successMessage = 'Account created. Redirecting to login...';
         this.launching = true;
 
         setTimeout(() => {
@@ -68,7 +67,6 @@ export class RegisterComponent {
 
   isInvalid(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
-
     return !!(
       control &&
       control.invalid &&

@@ -4,4 +4,5 @@ export interface LoginResponse {
   role?: string;
   userId?: number;
   username?: string;
+  name?: string;
 }

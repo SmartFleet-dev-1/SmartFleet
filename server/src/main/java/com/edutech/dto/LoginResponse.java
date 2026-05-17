@@ -1,46 +1,51 @@
 package com.edutech.dto;
 
-import com.edutech.entity.Role;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class LoginResponse {
 
-     // Add the required code here!
-     private String token;
-     private String role;
-     private String username;
+    private String token;
+    private String role;
+    private String username;
+    private String name;
 
-     public LoginResponse() {
-     }
+    public LoginResponse() {
+    }
 
-     public LoginResponse(String token, String role, String username) {
-          this.token = token;
-          this.role = role;
-          this.username = username;
-     }
+    public LoginResponse(String token, String role, String username, String name) {
+        this.token = token;
+        this.role = role;
+        this.username = username;
+        this.name = name;
+    }
 
-     public String getToken() {
-          return token;
-     }
+    public String getToken() {
+        return token;
+    }
 
-     public void setToken(String t) {
-          this.token = t;
-     }
+    public void setToken(String t) {
+        this.token = t;
+    }
 
-     public String getRole() {
-          return role;
-     }
+    public String getRole() {
+        return role;
+    }
 
-     public void setRole(String r) {
-          this.role = r;
-     }
+    public void setRole(String r) {
+        this.role = r;
+    }
 
-     public String getUsername() {
-          return username;
-     }
+    public String getUsername() {
+        return username;
+    }
 
-     public void setUsername(String u) {
-          this.username = u;
-     }
+    public void setUsername(String u) {
+        this.username = u;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String n) {
+        this.name = n;
+    }
 }
